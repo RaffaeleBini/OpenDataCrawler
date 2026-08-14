@@ -1,0 +1,19 @@
+[project]
+name = "ckanext-ineharvester"
+version = "0.1.0"
+description = "Harvester a medida para la API Tempus3 del INE (Instituto Nacional de Estadistica), para DATAlife"
+requires-python = ">=3.9"
+dependencies = [
+  "ckantoolkit",
+  "requests",
+]
+
+[project.entry-points."ckan.plugins"]
+ine_harvester = "ckanext.ineharvester.plugin:INEHarvester"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ckanext*"]

@@ -1,0 +1,9 @@
+{
+  "name": "abertos-xunta-incendios-forestais",
+  "title": "abertos.xunta.gal — Incendios forestais (piloto real)",
+  "url": "https://abertos.xunta.gal/catalogo/economia-empresa-emprego/-/dataset/0147/incendios-forestais.rdf",
+  "source_type": "dcat_rdf",
+  "owner_org": "forestal-madera",
+  "frequency": "MANUAL",
+  "notes": "Piloto de la primera fuente real conectada. Endpoint DCAT/RDF de un único dataset del catálogo oficial de la Xunta de Galicia (abertos.xunta.gal)."
+}

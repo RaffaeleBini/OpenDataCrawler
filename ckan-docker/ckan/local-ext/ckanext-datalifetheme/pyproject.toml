@@ -1,0 +1,21 @@
+[project]
+name = "ckanext-datalifetheme"
+version = "0.1.0"
+description = "Personalizacion de marca DATAlife (logo, powered-by) y permisos del formulario de fuentes de datos"
+requires-python = ">=3.9"
+dependencies = [
+  "ckantoolkit",
+]
+
+[project.entry-points."ckan.plugins"]
+datalifetheme = "ckanext.datalifetheme.plugin:DatalifeThemePlugin"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ckanext*"]
+
+[tool.setuptools.package-data]
+"ckanext.datalifetheme" = ["templates/*.html", "public/*.svg"]

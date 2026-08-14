@@ -1,0 +1,504 @@
+<title>Guía del Portal DATAlife</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --bg: #eef0e9;
+    --surface: #f8f9f4;
+    --surface-2: #e4e7dc;
+    --text: #142e2b;
+    --muted: #44564f;
+    --line: #cdd2c3;
+    --accent: #1c6068;
+    --accent-ink: #f8f9f4;
+    --accent2: #a8691a;
+    --code-bg: #102422;
+    --code-text: #d8ecdf;
+    --code-line: #24413c;
+
+    --agro: #5f6e3a;
+    --mar: #1f6e79;
+    --forestal: #2e5a41;
+    --biotec: #6e3a5c;
+
+    --font-display: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    --font-body: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1f1d;
+      --surface: #14302b;
+      --surface-2: #1b3a33;
+      --text: #e9efe9;
+      --muted: #9bb0a8;
+      --line: #2c4a43;
+      --accent: #58bfc4;
+      --accent-ink: #0d1f1d;
+      --accent2: #e3a63f;
+      --code-bg: #0a1917;
+      --code-text: #cfe8de;
+      --code-line: #1d3733;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1f1d;
+    --surface: #14302b;
+    --surface-2: #1b3a33;
+    --text: #e9efe9;
+    --muted: #9bb0a8;
+    --line: #2c4a43;
+    --accent: #58bfc4;
+    --accent-ink: #0d1f1d;
+    --accent2: #e3a63f;
+    --code-bg: #0a1917;
+    --code-text: #cfe8de;
+    --code-line: #1d3733;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+  code, pre { font-family: var(--font-mono); }
+
+  .wrap { max-width: 840px; margin: 0 auto; padding: 0 26px; }
+
+  /* header */
+  .top { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.04em;
+    padding: 4px 10px; border-radius: 10px;
+    background: var(--surface-2); color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .badge__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); }
+  .top h1 { font-size: clamp(1.9rem, 4vw, 2.5rem); }
+  .top__sub { margin-top: 14px; max-width: 62ch; color: var(--muted); font-size: 1.05rem; }
+  .notice {
+    margin-top: 26px; padding: 14px 16px; border-radius: 4px;
+    background: var(--surface); border: 1px solid var(--line);
+    font-size: 0.93rem; color: var(--muted); max-width: 62ch;
+  }
+  .notice strong { color: var(--text); }
+
+  /* subnav */
+  nav.toc {
+    position: sticky; top: 0; z-index: 5;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  nav.toc .wrap { display: flex; gap: 22px; padding-top: 14px; padding-bottom: 14px; white-space: nowrap; }
+  nav.toc a {
+    font-family: var(--font-mono); font-size: 12.5px; letter-spacing: 0.02em;
+    text-decoration: none; color: var(--muted);
+  }
+  nav.toc a:hover, nav.toc a:focus-visible { color: var(--accent); }
+
+  /* steps */
+  .step { padding: 64px 0; border-bottom: 1px solid var(--line); }
+  .step:last-of-type { border-bottom: none; }
+  .step__num {
+    font-family: var(--font-mono); font-size: 13px; color: var(--accent);
+    letter-spacing: 0.06em; display: block; margin-bottom: 10px;
+  }
+  .step h2 { font-size: 1.55rem; }
+  .step__lede { margin-top: 14px; color: var(--muted); max-width: 62ch; font-size: 1.01rem; }
+  .step__body { margin-top: 22px; max-width: 66ch; }
+  .step__body p + p { margin-top: 14px; }
+  .step__body ul, .step__body ol { max-width: 66ch; padding-left: 22px; margin: 14px 0 0; }
+  .step__body li + li { margin-top: 8px; }
+
+  /* mockups */
+  .mock {
+    margin-top: 26px; border: 1px solid var(--line); border-radius: 6px;
+    background: var(--surface); overflow: hidden;
+  }
+  .mock__bar { padding: 10px 14px; border-bottom: 1px solid var(--line); display: flex; gap: 10px; align-items: center; }
+  .mock__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .mock__search {
+    flex: 1; background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+    padding: 7px 10px; font-size: 13px; color: var(--muted); font-family: var(--font-mono);
+  }
+  .mock__body { padding: 16px; }
+  .mock__filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .mock__filter {
+    font-size: 11.5px; font-family: var(--font-mono); padding: 4px 10px; border-radius: 12px;
+    border: 1px solid var(--line); color: var(--muted);
+  }
+  .mock__filter--active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .mock__result { display: flex; gap: 10px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); }
+  .mock__result:first-child { border-top: none; }
+  .mock__chip { flex: none; font-size: 10px; font-weight: 700; color: #f8f9f4; padding: 3px 8px; border-radius: 3px; margin-top: 2px; }
+  .mock__chip--agro { background: var(--agro); }
+  .mock__chip--mar { background: var(--mar); }
+  .mock__chip--forestal { background: var(--forestal); }
+  .mock__chip--biotec { background: var(--biotec); }
+  .mock__result strong { display: block; font-size: 0.95rem; }
+  .mock__result span { font-size: 0.85rem; color: var(--muted); }
+
+  .sectors-mini { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+  .sectors-mini span {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 0.85rem; padding: 6px 12px; border-radius: 14px; border: 1px solid var(--line);
+  }
+  .sectors-mini i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .sectors-mini .agro i { background: var(--agro); }
+  .sectors-mini .mar i { background: var(--mar); }
+  .sectors-mini .forestal i { background: var(--forestal); }
+  .sectors-mini .biotec i { background: var(--biotec); }
+
+  /* diagram */
+  .diagram-wrap { margin-top: 26px; overflow-x: auto; }
+  .diagram-wrap svg { width: 100%; height: auto; min-width: 560px; display: block; }
+  figure { margin: 0; }
+  figcaption { margin-top: 12px; font-size: 0.88rem; color: var(--muted); max-width: 62ch; }
+
+  /* code */
+  .codeblock {
+    margin-top: 18px; background: var(--code-bg); color: var(--code-text);
+    border-radius: 6px; padding: 16px 18px; overflow-x: auto; font-size: 13px; line-height: 1.55;
+  }
+  .codeblock .c1 { color: #7fa89b; }
+  table.endpoints { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.92rem; }
+  table.endpoints th, table.endpoints td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.endpoints th { font-family: var(--font-mono); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+  table.endpoints code { font-size: 0.88rem; }
+
+  .mock__field { margin-bottom: 12px; }
+  .mock__field:last-child { margin-bottom: 0; }
+  .mock__label {
+    display: block; font-family: var(--font-mono); font-size: 10.5px;
+    text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .mock__input {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+    padding: 7px 10px; font-size: 13px; color: var(--text);
+  }
+  .mock__select { display: inline-flex; align-items: center; gap: 6px; }
+  .mock__select::after { content: "▾"; color: var(--muted); font-size: 10px; }
+  .admin-only {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.03em;
+    padding: 3px 9px; border-radius: 10px;
+    background: var(--surface-2); color: var(--muted); margin-bottom: 4px;
+  }
+  .admin-only i { width: 6px; height: 6px; border-radius: 50%; background: var(--accent2); }
+
+  .btn-pill {
+    display: inline-block; font-size: 11px; font-weight: 700; font-family: var(--font-mono);
+    padding: 4px 10px; border-radius: 3px; background: var(--accent); color: var(--accent-ink);
+  }
+
+  /* faq */
+  .faq details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  .faq details:first-child { border-top: 1px solid var(--line); }
+  .faq summary { cursor: pointer; font-weight: 600; font-size: 1rem; }
+  .faq summary::marker { color: var(--accent); }
+  .faq p { margin-top: 10px; color: var(--muted); max-width: 62ch; }
+
+  footer { padding: 56px 0 90px; border-top: 1px solid var(--line); }
+  footer h2 { font-size: 0.95rem; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+  .glossary { margin-top: 20px; display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 640px) { .glossary { grid-template-columns: 1fr 1fr; } }
+  .glossary dt { font-family: var(--font-mono); font-weight: 700; font-size: 0.88rem; }
+  .glossary dd { margin: 3px 0 0; color: var(--muted); font-size: 0.88rem; }
+  .contact { margin-top: 30px; color: var(--muted); }
+  .contact a { font-weight: 600; }
+
+  a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <span class="badge"><span class="badge__dot" aria-hidden="true"></span>Entorno de pruebas · Fase 1 (MVP)</span>
+    <h1>Guía del Portal DATAlife</h1>
+    <p class="top__sub">Cómo buscar, explorar, descargar y consultar por API los datos abiertos de las cuatro cadenas de valor de DATAlife: Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología.</p>
+    <div class="notice"><strong>Antes de empezar:</strong> el portal está todavía en fase de pruebas internas. Las capturas de esta guía son un modelo del funcionamiento real; cuando publiquemos la dirección definitiva, actualizaremos aquí el enlace.</div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Índice de la guía">
+  <div class="wrap">
+    <a href="#paso1">1. Acceder</a>
+    <a href="#paso2">2. Buscar</a>
+    <a href="#paso3">3. Cadenas de valor</a>
+    <a href="#paso4">4. Un dataset</a>
+    <a href="#paso5">5. Descargar</a>
+    <a href="#paso6">6. API</a>
+    <a href="#paso7">7. Añadir fuente</a>
+    <a href="#faq">Preguntas frecuentes</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="step" id="paso1">
+  <div class="wrap">
+    <span class="step__num">Paso 1</span>
+    <h2>Acceder al portal</h2>
+    <p class="step__lede">El catálogo se abre en el navegador, sin necesidad de instalar nada.</p>
+    <div class="step__body">
+      <p>En el entorno de pruebas actual, la dirección es <code>https://localhost:8443</code> y solo es accesible desde el equipo donde corre la plataforma. El navegador mostrará un aviso de seguridad porque el certificado es de desarrollo; puedes continuar con confianza en este entorno.</p>
+      <p>No necesitas una cuenta para buscar, ver o descargar datos: la cuenta solo hace falta para publicar datasets propios o generar una clave de acceso a la API (paso seis).</p>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso2">
+  <div class="wrap">
+    <span class="step__num">Paso 2</span>
+    <h2>Buscar datos</h2>
+    <p class="step__lede">La barra de búsqueda superior admite texto libre; los filtros de la izquierda acotan por cadena de valor, formato, etiqueta o entidad publicadora.</p>
+    <div class="step__body">
+      <p>Escribe una palabra clave (por ejemplo, <em>incendios</em> o <em>acuicultura</em>) y pulsa Intro. Combina varios filtros a la vez para acotar: quedará, por ejemplo, solo lo que sea de la cadena Forestal-Madera y esté en formato CSV.</p>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="mock__bar">
+        <span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
+        <div class="mock__search">🔍 incendios forestais</div>
+      </div>
+      <div class="mock__body">
+        <div class="mock__filters">
+          <span class="mock__filter mock__filter--active">Forestal-Madera</span>
+          <span class="mock__filter">CSV</span>
+          <span class="mock__filter">GeoJSON</span>
+          <span class="mock__filter">Licencia abierta</span>
+        </div>
+        <div class="mock__result">
+          <span class="mock__chip mock__chip--forestal">Forestal</span>
+          <div><strong>Incendios forestais en Galicia — histórico anual</strong><span>abertos.xunta.gal · CSV, GeoJSON</span></div>
+        </div>
+        <div class="mock__result">
+          <span class="mock__chip mock__chip--forestal">Forestal</span>
+          <div><strong>Risco de incendio por concello</strong><span>MeteoGalicia · JSON</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso3">
+  <div class="wrap">
+    <span class="step__num">Paso 3</span>
+    <h2>Explorar por cadena de valor</h2>
+    <p class="step__lede">Si aún no sabes qué buscar, entra directamente por tu sector: cada cadena de valor es una organización dentro del catálogo, con todos sus datasets agrupados.</p>
+    <div class="sectors-mini">
+      <span class="agro"><i></i>Agro-Mar-Alimentación</span>
+      <span class="forestal"><i></i>Forestal-Madera</span>
+      <span class="mar"><i></i>Salud-Cuidados</span>
+      <span class="biotec"><i></i>Biotecnología</span>
+    </div>
+    <div class="step__body">
+      <p>Desde la página de inicio, elige "Organizaciones" y selecciona la tuya. Dentro, puedes seguir filtrando por palabra clave, igual que en la búsqueda general.</p>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso4">
+  <div class="wrap">
+    <span class="step__num">Paso 4</span>
+    <h2>Abrir un dataset</h2>
+    <p class="step__lede">La página de cada conjunto de datos siempre tiene la misma estructura, así que una vez que la conoces, te orientas en cualquiera.</p>
+    <figure class="diagram-wrap">
+      <svg viewBox="0 0 640 400" role="img" aria-label="Anatomía de la página de un dataset: título y organización arriba, descripción debajo, lista de recursos descargables con su formato, y un botón de acceso a la API.">
+        <rect x="20" y="20" width="600" height="360" rx="8" fill="none" stroke="currentColor" stroke-width="1.3" opacity="0.8" />
+
+        <text x="40" y="52" font-size="15" font-weight="700" fill="currentColor">Incendios forestais en Galicia</text>
+        <rect x="40" y="62" width="66" height="20" rx="10" fill="#2e5a41" />
+        <text x="73" y="76" text-anchor="middle" font-size="10" font-weight="700" fill="#f8f9f4">Forestal</text>
+
+        <line x1="40" y1="102" x2="480" y2="102" stroke="currentColor" stroke-width="5" opacity="0.18" />
+        <line x1="40" y1="116" x2="440" y2="116" stroke="currentColor" stroke-width="5" opacity="0.18" />
+        <line x1="40" y1="130" x2="300" y2="130" stroke="currentColor" stroke-width="5" opacity="0.18" />
+
+        <text x="40" y="168" font-size="12" font-weight="700" fill="currentColor" opacity="0.8">Recursos</text>
+        <rect x="40" y="178" width="560" height="46" rx="4" fill="none" stroke="currentColor" opacity="0.5" />
+        <text x="52" y="205" font-size="12" fill="currentColor">incendios_2020_2025.csv</text>
+        <rect x="520" y="189" width="66" height="24" rx="4" fill="currentColor" />
+        <text x="553" y="205" text-anchor="middle" font-size="10.5" font-weight="700" fill="#f8f9f4">Descargar</text>
+
+        <rect x="40" y="232" width="560" height="46" rx="4" fill="none" stroke="currentColor" opacity="0.5" />
+        <text x="52" y="259" font-size="12" fill="currentColor">risco_concello.geojson</text>
+        <rect x="520" y="243" width="66" height="24" rx="4" fill="currentColor" />
+        <text x="553" y="259" text-anchor="middle" font-size="10.5" font-weight="700" fill="#f8f9f4">Descargar</text>
+
+        <rect x="40" y="310" width="90" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="1.3" />
+        <text x="85" y="329" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">Ver la API</text>
+
+        <!-- leader labels -->
+        <line x1="480" y1="72" x2="560" y2="40" stroke="currentColor" stroke-width="1" opacity="0.6" />
+        <circle cx="480" cy="72" r="2.5" fill="currentColor" />
+        <text x="565" y="40" font-size="10.5" fill="currentColor" opacity="0.85">cadena de valor</text>
+
+        <text x="440" y="168" font-size="10.5" fill="currentColor" opacity="0.85" text-anchor="end">formato y tamaño de cada archivo →</text>
+
+        <line x1="130" y1="325" x2="200" y2="360" stroke="currentColor" stroke-width="1" opacity="0.6" />
+        <circle cx="130" cy="325" r="2.5" fill="currentColor" />
+        <text x="205" y="364" font-size="10.5" fill="currentColor" opacity="0.85">acceso programático (paso 6)</text>
+      </svg>
+      <figcaption>Estructura habitual de una página de dataset en el catálogo: identificación y cadena de valor, descripción, recursos descargables y acceso a la API.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="step" id="paso5">
+  <div class="wrap">
+    <span class="step__num">Paso 5</span>
+    <h2>Descargar un recurso</h2>
+    <p class="step__lede">Cada recurso indica su formato (CSV, JSON, GeoJSON, Parquet…) antes de descargarlo.</p>
+    <div class="step__body">
+      <ol>
+        <li>Abre el dataset que te interese.</li>
+        <li>En la lista de "Recursos", localiza el archivo por su nombre y formato.</li>
+        <li>Pulsa <span class="btn-pill">Descargar</span>: el archivo se guarda directamente, sin pasos intermedios.</li>
+      </ol>
+      <p>Si el dataset procede de una fuente externa que solo indexamos (no alojamos), el botón te lleva directamente al archivo en su portal de origen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso6">
+  <div class="wrap">
+    <span class="step__num">Paso 6</span>
+    <h2>Usar la API</h2>
+    <p class="step__lede">Toda búsqueda y toda descarga que haces a mano en el portal también se puede pedir por programa, con la misma interfaz de programación de aplicaciones (API) que usa el propio catálogo.</p>
+    <div class="step__body">
+      <p>Buscar datasets por palabra clave y cadena de valor:</p>
+    </div>
+    <div class="codeblock"><span class="c1"># cadena de valor "forestal-madera", palabra clave "incendios"</span>
+curl "https://localhost:8443/api/3/action/package_search?q=incendios&fq=organization:forestal-madera"</div>
+    <div class="step__body"><p>Consultar un dataset concreto y obtener las URL directas de sus archivos:</p></div>
+    <div class="codeblock"><span class="c1"># sustituye el nombre por el del dataset que te interese</span>
+curl "https://localhost:8443/api/3/action/package_show?id=incendios-forestais-galicia"</div>
+    <div class="step__body"><p>Lo mismo desde JavaScript, por ejemplo dentro de tu propia aplicación:</p></div>
+    <div class="codeblock"><span class="c1">// devuelve los datasets de Salud-Cuidados que mencionan "envellecemento"</span>
+const resp = await fetch(
+  "https://localhost:8443/api/3/action/package_search?q=envellecemento&fq=organization:salud-cuidados"
+);
+const datos = await resp.json();
+console.log(datos.result.results);</div>
+    <table class="endpoints">
+      <thead><tr><th>Necesitas</th><th>Llamada</th></tr></thead>
+      <tbody>
+        <tr><td>Buscar datasets</td><td><code>/api/3/action/package_search?q=…</code></td></tr>
+        <tr><td>Ver un dataset y sus recursos</td><td><code>/api/3/action/package_show?id=…</code></td></tr>
+        <tr><td>Listar las cadenas de valor</td><td><code>/api/3/action/organization_list</code></td></tr>
+        <tr><td>Ver los datasets de una cadena</td><td><code>/api/3/action/organization_show?id=…&include_datasets=true</code></td></tr>
+      </tbody>
+    </table>
+    <div class="step__body">
+      <p>Para volúmenes altos de peticiones, crea una clave desde tu perfil de usuario ("Mi cuenta" → "Claves de API") y envíala en la cabecera <code>Authorization</code>. Para consultas puntuales no es necesaria: el acceso de lectura es abierto.</p>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso7">
+  <div class="wrap">
+    <span class="step__num">Paso 7</span>
+    <span class="admin-only"><i aria-hidden="true"></i>Solo administradores del sistema</span>
+    <h2>Añadir una fuente de datos nueva</h2>
+    <p class="step__lede">Si formas parte del equipo técnico y tienes permisos de administración, puedes dar de alta una fuente de recolección nueva directamente desde el portal, sin tocar código.</p>
+    <div class="step__body">
+      <ol>
+        <li>Abre el menú de tu cuenta (arriba a la derecha). Si eres administrador del sistema, verás un enlace <strong>"Fuentes de datos"</strong> que no aparece para el resto de personas usuarias.</li>
+        <li>Pulsa "Añadir fuente" para abrir el formulario.</li>
+        <li>Rellena los campos: nombre, título, la URL de la API o el catálogo de origen, el tipo de fuente, la cadena de valor a la que pertenece y la frecuencia de actualización.</li>
+        <li>Guarda. La fuente queda dada de alta; el equipo técnico ejecuta la primera recolección para traer los datos por primera vez.</li>
+      </ol>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="mock__bar">
+        <span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
+        <div class="mock__search">Nueva fuente de datos</div>
+      </div>
+      <div class="mock__body">
+        <div class="mock__field">
+          <span class="mock__label">URL</span>
+          <div class="mock__input">https://ejemplo.gal/api/catalogo.rdf</div>
+        </div>
+        <div class="mock__field">
+          <span class="mock__label">Tipo de fuente</span>
+          <div class="mock__input mock__select">DCAT RDF genérico</div>
+        </div>
+        <div class="mock__field">
+          <span class="mock__label">Cadena de valor</span>
+          <div class="mock__input mock__select">Forestal-Madera</div>
+        </div>
+      </div>
+    </div>
+    <div class="step__body">
+      <p>El tipo de fuente depende de cómo publique los datos el organismo de origen:</p>
+    </div>
+    <table class="endpoints">
+      <thead><tr><th>Tipo de fuente</th><th>Cuándo usarlo</th></tr></thead>
+      <tbody>
+        <tr><td>CKAN</td><td>El origen es otro portal CKAN (busca <code>/api/3/action/status_show</code> en su web)</td></tr>
+        <tr><td>DCAT RDF genérico</td><td>El origen publica un catálogo DCAT en RDF/XML, como abertos.xunta.gal o datos.gob.es</td></tr>
+        <tr><td>DCAT JSON</td><td>El origen publica un feed DCAT en JSON, como los portales ArcGIS Hub (por ejemplo opendata.esri.es)</td></tr>
+        <tr><td>IGE</td><td>Tablas del Instituto Galego de Estatística</td></tr>
+        <tr><td>INE</td><td>Tablas del Instituto Nacional de Estadística</td></tr>
+      </tbody>
+    </table>
+    <div class="step__body">
+      <p>Si el origen no encaja en ninguno de estos tipos, coméntalo con el equipo técnico: puede hacer falta construir un conector nuevo, como se hizo para el IGE y el INE.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<section class="step faq" id="faq" style="border-bottom:none">
+  <div class="wrap">
+    <span class="step__num">Preguntas frecuentes</span>
+    <h2>Dudas habituales</h2>
+    <div style="margin-top:26px">
+      <details>
+        <summary>¿Necesito permiso para usar estos datos?</summary>
+        <p>Cada dataset muestra su licencia. La mayoría son de reutilización abierta, pero conviene comprobarlo antes de un uso comercial, sobre todo en datasets que solo indexamos desde otra fuente.</p>
+      </details>
+      <details>
+        <summary>¿Por qué un enlace de descarga me lleva a otra web?</summary>
+        <p>Porque ese dataset no lo alojamos nosotros: indexamos su ficha y enlazamos al portal original para no duplicar el archivo.</p>
+      </details>
+      <details>
+        <summary>¿Puedo pedir que se incorpore un dataset que no está?</summary>
+        <p>Sí. Escríbenos con el enlace o la fuente y lo evaluamos para incorporarlo en las próximas fases.</p>
+      </details>
+      <details>
+        <summary>¿Hay límite de peticiones a la API?</summary>
+        <p>Para uso puntual, no. Si vas a hacer muchas peticiones seguidas, usa una clave de API (paso seis) para evitar bloqueos por exceso de tráfico.</p>
+      </details>
+      <details>
+        <summary>¿Por qué no veo el enlace "Fuentes de datos" en mi cuenta?</summary>
+        <p>Ese enlace y el formulario del paso siete solo están disponibles para administradores del sistema. Si necesitas añadir una fuente y no tienes ese permiso, contacta con el equipo técnico.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <h2>Glosario</h2>
+    <dl class="glossary">
+      <div><dt>API</dt><dd>Interfaz de programación de aplicaciones: forma de pedir datos por programa, sin usar el navegador.</dd></div>
+      <div><dt>CKAN</dt><dd>Software libre de catálogo de datos abiertos que da soporte a este portal.</dd></div>
+      <div><dt>CSV / JSON / GeoJSON</dt><dd>Formatos de archivo habituales para datos tabulares o geográficos.</dd></div>
+      <div><dt>Organización (en CKAN)</dt><dd>La agrupación que usamos para representar cada cadena de valor de DATAlife.</dd></div>
+      <div><dt>Recurso</dt><dd>Cada archivo concreto dentro de un dataset (por ejemplo, un CSV y un GeoJSON del mismo conjunto).</dd></div>
+      <div><dt>Fuente de recolección</dt><dd>La configuración que le dice al portal dónde y cómo recoger los datos de un organismo externo (paso siete).</dd></div>
+      <div><dt>DCAT</dt><dd>Data Catalog Vocabulary: formato estándar en el que muchos organismos publican su catálogo de datos.</dd></div>
+    </dl>
+    <p class="contact">¿Dudas o sugerencias sobre el portal? Escribe a <a href="mailto:raffaele@dihdatalife.com">raffaele@dihdatalife.com</a>.</p>
+  </div>
+</footer>

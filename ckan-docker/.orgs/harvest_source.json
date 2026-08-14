@@ -1,0 +1,9 @@
+{
+  "name": "test-demo-ckan-org",
+  "title": "TEST - demo.ckan.org (validación técnica)",
+  "url": "https://demo.ckan.org",
+  "source_type": "ckan",
+  "owner_org": "sandbox-pruebas",
+  "frequency": "MANUAL",
+  "config": "{\"organizations_filter_include\": [\"demo-organization\"]}"
+}
