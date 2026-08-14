@@ -1,12 +1,6 @@
 {% ckan_extends %}
 
-{% set sector_labels = {
-  "general": "General / todos los sectores",
-  "agro-mar-alimentacion": "Agro-Mar-Alimentación",
-  "forestal-madera": "Forestal-Madera",
-  "salud-cuidados": "Salud-Cuidados",
-  "biotecnologia": "Biotecnología"
-} %}
+{% set sector_labels = h.datalife_sector_labels() %}
 
 {% block search %}
 <div class="module-search card box">

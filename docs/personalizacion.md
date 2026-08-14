@@ -17,7 +17,11 @@ Lo que sí hemos añadido:
 
 Se sustituyó el logo de la esquina superior izquierda por el de DATAlife, con un aviso "Powered by CKAN" debajo. Se revirtió después, al saberse que DATAlife ya cuenta con una herramienta de este tipo: el portal vuelve a mostrar el logo original de CKAN. El fichero del logo (`ckanext/datalifetheme/public/datalife-logo.svg`) se dejó en la extensión sin usar, por si hiciera falta en el futuro; para reactivarlo bastaría con volver a añadir el bloque `header_logo` que se quitó de `templates/header.html`.
 
-## 3. Explorador de catálogos por país y sector
+## 3. Sectores ampliados (14 organizaciones, no solo las 4 de DATAlife)
+
+Además de Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología, se crearon 10 organizaciones nuevas en CKAN para cubrir cualquier sector: Medio Ambiente y Clima, Energía, Transporte y Movilidad, Ciencia/Tecnología e I+D, Economía y Finanzas Públicas, Educación, Cultura y Turismo, Vivienda y Urbanismo, Gobierno y Sector Público, y Demografía y Sociedad (detalle en [docs/taxonomia.md](taxonomia.md)). La lista completa vive en un único sitio del código (`SECTOR_LABELS` en `plugin.py`), para que el desplegable de sector de la portada y de `/explorar-catalogos` se alimenten siempre de la misma fuente sin duplicar la lista.
+
+## 4. Explorador de catálogos por país y sector
 
 Página nueva, **`/explorar-catalogos`** (solo administradores), pensada para cuando el proyecto amplió su alcance de "Galicia y 4 sectores" a cualquier país y sector. Es un directorio curado de catálogos de datos abiertos, cada uno verificado a mano con una petición real (no un buscador automático), con una máscara de filtrado por país/región y por sector.
 
@@ -34,5 +38,5 @@ Al ser cambios de plantilla e interfaz (no solo de configuración), no bastaba c
 1. Registra una carpeta pública (`public/`) y una de plantillas (`templates/`) que sobrescribe el bloque `header_account_logged` de la cabecera de CKAN mediante `{% ckan_extends %}` (la forma estándar de CKAN de extender una plantilla ya existente sin copiarla entera).
 2. Registra una función de autorización encadenada (`chained_auth_function`) sobre `package_create`, siguiendo el patrón que usa el propio CKAN para permitir que varias extensiones cooperen sobre la misma acción sin pisarse.
 3. Registra un blueprint de Flask (interfaz `IBlueprint`) con la ruta `/explorar-catalogos`, que lee el directorio JSON y renderiza una plantilla propia con el formulario de filtrado y los resultados.
-4. Registra dos funciones auxiliares de plantilla (interfaz `ITemplateHelpers`, `datalife_directory_paises` y `datalife_directory_sectores`) para poder rellenar los desplegables de país y sector tanto en `/explorar-catalogos` como en la portada.
+4. Registra tres funciones auxiliares de plantilla (interfaz `ITemplateHelpers`: `datalife_directory_paises`, `datalife_directory_sectores` y `datalife_sector_labels`) para poder rellenar los desplegables de país y sector, y sus etiquetas legibles, tanto en `/explorar-catalogos` como en la portada, sin duplicar la lista de sectores.
 5. Sobrescribe también `home/index.html` (bloque `search`) y el bloque `header_site_navigation_tabs` de la cabecera, para mostrar el formulario en la portada y el enlace "Explorar catálogos" en el menú público.

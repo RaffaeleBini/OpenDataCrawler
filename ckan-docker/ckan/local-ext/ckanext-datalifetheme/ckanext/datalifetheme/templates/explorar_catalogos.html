@@ -1,12 +1,6 @@
 {% extends "page.html" %}
 
-{% set sector_labels = {
-  "general": "General / todos los sectores",
-  "agro-mar-alimentacion": "Agro-Mar-Alimentación",
-  "forestal-madera": "Forestal-Madera",
-  "salud-cuidados": "Salud-Cuidados",
-  "biotecnologia": "Biotecnología"
-} %}
+{% set sector_labels = h.datalife_sector_labels() %}
 
 {% block subtitle %}{{ _('Explorar catálogos') }}{% endblock %}
 

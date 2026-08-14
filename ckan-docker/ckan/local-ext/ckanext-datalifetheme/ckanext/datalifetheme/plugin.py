@@ -31,6 +31,31 @@ _DIRECTORY_PATH = os.path.join(
     os.path.dirname(__file__), "data", "catalog_directory.json"
 )
 
+# Taxonomía completa de sectores/cadenas de valor. Es la fuente única para
+# el desplegable de sector (portada y /explorar-catalogos) y para las
+# etiquetas legibles: así no hace falta duplicar esta lista en cada
+# plantilla ni esperar a que un catálogo la use para que aparezca como
+# opción de filtro.
+SECTOR_LABELS = {
+    "general": "General / todos los sectores",
+    # Cadenas de valor originales de DATAlife
+    "agro-mar-alimentacion": "Agro-Mar-Alimentación",
+    "forestal-madera": "Forestal-Madera",
+    "salud-cuidados": "Salud-Cuidados",
+    "biotecnologia": "Biotecnología",
+    # Ampliación a cualquier sector
+    "medio-ambiente-clima": "Medio Ambiente y Clima",
+    "energia": "Energía",
+    "transporte-movilidad": "Transporte y Movilidad",
+    "ciencia-tecnologia-id": "Ciencia, Tecnología e I+D",
+    "economia-finanzas": "Economía y Finanzas Públicas",
+    "educacion": "Educación",
+    "cultura-turismo": "Cultura y Turismo",
+    "vivienda-urbanismo": "Vivienda y Urbanismo",
+    "gobierno-sector-publico": "Gobierno y Sector Público",
+    "demografia-sociedad": "Demografía y Sociedad",
+}
+
 
 def _load_directory():
     with open(_DIRECTORY_PATH, encoding="utf-8") as f:
@@ -43,8 +68,14 @@ def get_directory_paises():
 
 
 def get_directory_sectores():
-    directorio = _load_directory()
-    return sorted({s for d in directorio for s in d["sectores"]})
+    # "general" siempre primero; el resto, alfabético por etiqueta legible.
+    keys = [k for k in SECTOR_LABELS if k != "general"]
+    keys.sort(key=lambda k: SECTOR_LABELS[k])
+    return ["general"] + keys
+
+
+def get_sector_labels():
+    return SECTOR_LABELS
 
 
 datalife_explorer = Blueprint("datalife_explorer", __name__)
@@ -132,4 +163,5 @@ class DatalifeThemePlugin(plugins.SingletonPlugin):
         return {
             "datalife_directory_paises": get_directory_paises,
             "datalife_directory_sectores": get_directory_sectores,
+            "datalife_sector_labels": get_sector_labels,
         }
