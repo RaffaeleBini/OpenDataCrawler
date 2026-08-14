@@ -37,6 +37,16 @@ def _load_directory():
         return json.load(f)
 
 
+def get_directory_paises():
+    directorio = _load_directory()
+    return sorted({d["pais"] for d in directorio})
+
+
+def get_directory_sectores():
+    directorio = _load_directory()
+    return sorted({s for d in directorio for s in d["sectores"]})
+
+
 datalife_explorer = Blueprint("datalife_explorer", __name__)
 
 
@@ -47,8 +57,8 @@ def explorar_catalogos():
     pais_sel = request.args.get("pais", "").strip()
     sector_sel = request.args.get("sector", "").strip()
 
-    paises = sorted({d["pais"] for d in directorio})
-    sectores = sorted({s for d in directorio for s in d["sectores"]})
+    paises = get_directory_paises()
+    sectores = get_directory_sectores()
 
     resultados = directorio
     if pais_sel:
@@ -96,6 +106,7 @@ class DatalifeThemePlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
     plugins.implements(plugins.IBlueprint)
+    plugins.implements(plugins.ITemplateHelpers)
 
     # IConfigurer
 
@@ -114,3 +125,11 @@ class DatalifeThemePlugin(plugins.SingletonPlugin):
 
     def get_blueprint(self):
         return datalife_explorer
+
+    # ITemplateHelpers
+
+    def get_helpers(self):
+        return {
+            "datalife_directory_paises": get_directory_paises,
+            "datalife_directory_sectores": get_directory_sectores,
+        }

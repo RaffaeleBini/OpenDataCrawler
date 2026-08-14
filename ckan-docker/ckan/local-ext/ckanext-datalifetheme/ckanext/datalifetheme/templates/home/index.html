@@ -1,0 +1,41 @@
+{% ckan_extends %}
+
+{% set sector_labels = {
+  "general": "General / todos los sectores",
+  "agro-mar-alimentacion": "Agro-Mar-Alimentación",
+  "forestal-madera": "Forestal-Madera",
+  "salud-cuidados": "Salud-Cuidados",
+  "biotecnologia": "Biotecnología"
+} %}
+
+{% block search %}
+<div class="module-search card box">
+  <form class="module-content search-form" method="get" action="{{ h.url_for('datalife_explorer.explorar_catalogos') }}">
+    <h3 class="heading">{{ _("Definir alcance de búsqueda") }}</h3>
+    <p style="margin: -6px 0 14px 0; color: #666; font-size: 13px;">
+      {{ _("Elige país/región y sector para explorar el directorio de catálogos de datos abiertos.") }}
+    </p>
+    <div class="form-group">
+      <label for="home-field-pais" style="display:block; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#666;">{{ _('País / región') }}</label>
+      <select id="home-field-pais" name="pais" class="form-control">
+        <option value="">{{ _('Todos') }}</option>
+        {% for p in h.datalife_directory_paises() %}
+        <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group" style="margin-top:10px;">
+      <label for="home-field-sector" style="display:block; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#666;">{{ _('Sector') }}</label>
+      <select id="home-field-sector" name="sector" class="form-control">
+        <option value="">{{ _('Todos') }}</option>
+        {% for s in h.datalife_directory_sectores() %}
+        <option value="{{ s }}">{{ sector_labels.get(s, s) }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button class="btn btn-primary" type="submit" style="margin-top:14px;">
+      <i class="fa fa-globe" aria-hidden="true"></i> {{ _('Explorar catálogos') }}
+    </button>
+  </form>
+</div>
+{% endblock %}

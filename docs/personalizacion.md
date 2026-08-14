@@ -24,7 +24,8 @@ Página nueva, **`/explorar-catalogos`** (solo administradores), pensada para cu
 - Cada entrada indica: nombre, país/región, sector(es), tecnología (`ckan`, `dcat_rdf`, `dcat_json`, `ige`, `ine` o `custom` si haría falta un conector nuevo), la URL de referencia, notas, y si ya está conectado al catálogo o no.
 - El directorio vive en un fichero de datos dentro de la extensión (`ckanext/datalifetheme/data/catalog_directory.json`): para añadir una fuente nueva al explorador basta con añadir una entrada ahí, sin tocar la plantilla ni el código Python.
 - La página no conecta nada por sí misma: para cada catálogo listado, indica qué URL y qué tipo de fuente usar en el formulario de "Fuentes de datos" (punto 1).
-- Enlace directo "Explorar catálogos" en el menú de cuenta, junto a "Fuentes de datos", visible solo para sysadmins.
+- El formulario de filtrado (país/región + sector) se muestra también en la **portada**, en el hueco donde antes estaba el cuadro "Search data" de CKAN; al enviarlo, lleva a `/explorar-catalogos` con esos filtros ya aplicados.
+- Enlace "Explorar catálogos" en el menú superior, visible para cualquier persona (es una página pública, de solo lectura). "Fuentes de datos" sigue solo en el menú de cuenta, visible únicamente para sysadmins.
 
 ## Cómo se implementó
 
@@ -33,3 +34,5 @@ Al ser cambios de plantilla e interfaz (no solo de configuración), no bastaba c
 1. Registra una carpeta pública (`public/`) y una de plantillas (`templates/`) que sobrescribe el bloque `header_account_logged` de la cabecera de CKAN mediante `{% ckan_extends %}` (la forma estándar de CKAN de extender una plantilla ya existente sin copiarla entera).
 2. Registra una función de autorización encadenada (`chained_auth_function`) sobre `package_create`, siguiendo el patrón que usa el propio CKAN para permitir que varias extensiones cooperen sobre la misma acción sin pisarse.
 3. Registra un blueprint de Flask (interfaz `IBlueprint`) con la ruta `/explorar-catalogos`, que lee el directorio JSON y renderiza una plantilla propia con el formulario de filtrado y los resultados.
+4. Registra dos funciones auxiliares de plantilla (interfaz `ITemplateHelpers`, `datalife_directory_paises` y `datalife_directory_sectores`) para poder rellenar los desplegables de país y sector tanto en `/explorar-catalogos` como en la portada.
+5. Sobrescribe también `home/index.html` (bloque `search`) y el bloque `header_site_navigation_tabs` de la cabecera, para mostrar el formulario en la portada y el enlace "Explorar catálogos" en el menú público.
