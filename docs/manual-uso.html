@@ -223,7 +223,7 @@
   <div class="wrap">
     <span class="badge"><span class="badge__dot" aria-hidden="true"></span>Entorno de pruebas · Fase 1 (MVP)</span>
     <h1>Guía del Portal DATAlife</h1>
-    <p class="top__sub">Cómo buscar, explorar, descargar y consultar por API los datos abiertos de las cuatro cadenas de valor de DATAlife: Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología.</p>
+    <p class="top__sub">Cómo definir el alcance (país y sector), buscar, explorar, descargar y consultar por API los datos abiertos del catálogo. Nació centrado en Galicia y en las cuatro cadenas de valor de DATAlife (Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología), y ahora cubre cualquier país y sector: esas cuatro siguen ahí, como una opción más.</p>
     <div class="notice"><strong>Antes de empezar:</strong> el portal está todavía en fase de pruebas internas. Las capturas de esta guía son un modelo del funcionamiento real; cuando publiquemos la dirección definitiva, actualizaremos aquí el enlace.</div>
   </div>
 </header>
@@ -231,12 +231,13 @@
 <nav class="toc" aria-label="Índice de la guía">
   <div class="wrap">
     <a href="#paso1">1. Acceder</a>
-    <a href="#paso2">2. Buscar</a>
-    <a href="#paso3">3. Cadenas de valor</a>
-    <a href="#paso4">4. Un dataset</a>
-    <a href="#paso5">5. Descargar</a>
-    <a href="#paso6">6. API</a>
-    <a href="#paso7">7. Añadir fuente</a>
+    <a href="#paso2">2. País y sector</a>
+    <a href="#paso3">3. Buscar</a>
+    <a href="#paso4">4. Cadenas de valor</a>
+    <a href="#paso5">5. Un dataset</a>
+    <a href="#paso6">6. Descargar</a>
+    <a href="#paso7">7. API</a>
+    <a href="#paso8">8. Añadir fuente</a>
     <a href="#faq">Preguntas frecuentes</a>
   </div>
 </nav>
@@ -250,7 +251,7 @@
     <p class="step__lede">El catálogo se abre en el navegador, sin necesidad de instalar nada.</p>
     <div class="step__body">
       <p>En el entorno de pruebas actual, la dirección es <code>https://localhost:8443</code> y solo es accesible desde el equipo donde corre la plataforma. El navegador mostrará un aviso de seguridad porque el certificado es de desarrollo; puedes continuar con confianza en este entorno.</p>
-      <p>No necesitas una cuenta para buscar, ver o descargar datos: la cuenta solo hace falta para publicar datasets propios o generar una clave de acceso a la API (paso seis).</p>
+      <p>No necesitas una cuenta para buscar, ver o descargar datos: la cuenta solo hace falta para publicar datasets propios o generar una clave de acceso a la API (paso siete).</p>
     </div>
   </div>
 </section>
@@ -258,6 +259,41 @@
 <section class="step" id="paso2">
   <div class="wrap">
     <span class="step__num">Paso 2</span>
+    <h2>Definir el alcance: país y sector</h2>
+    <p class="step__lede">La propia portada empieza por aquí: en el sitio donde otros portales ponen un buscador, este tiene un filtro para acotar por país o región y por sector antes de mirar nada.</p>
+    <div class="step__body">
+      <p>Elige un país/región y un sector (o deja "Todos" en cualquiera de los dos) y pulsa "Explorar catálogos". Verás un directorio de catálogos de datos abiertos que encajan con tu selección — no son datasets sueltos, son fuentes completas, cada una con una etiqueta:</p>
+      <ul>
+        <li><strong>Ya conectado</strong>: sus datos ya están dentro de este portal; búscalos con el paso tres o entra directamente por su cadena de valor u organización (paso cuatro).</li>
+        <li><strong>Pendiente de conectar</strong>: es una fuente real y verificada, pero todavía no se ha traído al portal. Si te interesa, coméntaselo a la persona administradora (paso ocho).</li>
+      </ul>
+      <p>Este directorio se amplía con el tiempo: hoy cubre España (incluida Galicia) y varios países y organismos internacionales (por ejemplo, Reino Unido o la FAO), pero no pretende ser exhaustivo desde el primer día.</p>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="mock__bar">
+        <span class="mock__dot"></span><span class="mock__dot"></span><span class="mock__dot"></span>
+        <div class="mock__search">Definir alcance de búsqueda</div>
+      </div>
+      <div class="mock__body">
+        <div class="mock__field">
+          <span class="mock__label">País / región</span>
+          <div class="mock__input mock__select">Reino Unido</div>
+        </div>
+        <div class="mock__field">
+          <span class="mock__label">Sector</span>
+          <div class="mock__input mock__select">Agro-Mar-Alimentación</div>
+        </div>
+        <div class="mock__result" style="margin-top:14px;">
+          <div><strong>data.gov.uk</strong><span>CKAN · Ya conectado ("Sustainable fisheries")</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="paso3">
+  <div class="wrap">
+    <span class="step__num">Paso 3</span>
     <h2>Buscar datos</h2>
     <p class="step__lede">La barra de búsqueda superior admite texto libre; los filtros de la izquierda acotan por cadena de valor, formato, etiqueta o entidad publicadora.</p>
     <div class="step__body">
@@ -288,11 +324,11 @@
   </div>
 </section>
 
-<section class="step" id="paso3">
+<section class="step" id="paso4">
   <div class="wrap">
-    <span class="step__num">Paso 3</span>
+    <span class="step__num">Paso 4</span>
     <h2>Explorar por cadena de valor</h2>
-    <p class="step__lede">Si aún no sabes qué buscar, entra directamente por tu sector: cada cadena de valor es una organización dentro del catálogo, con todos sus datasets agrupados.</p>
+    <p class="step__lede">Esto es específico de la parte gallega del catálogo: cada cadena de valor de DATAlife es una organización, con todos sus datasets agrupados. Para el resto de países y sectores, usa el filtro del paso dos.</p>
     <div class="sectors-mini">
       <span class="agro"><i></i>Agro-Mar-Alimentación</span>
       <span class="forestal"><i></i>Forestal-Madera</span>
@@ -305,9 +341,9 @@
   </div>
 </section>
 
-<section class="step" id="paso4">
+<section class="step" id="paso5">
   <div class="wrap">
-    <span class="step__num">Paso 4</span>
+    <span class="step__num">Paso 5</span>
     <h2>Abrir un dataset</h2>
     <p class="step__lede">La página de cada conjunto de datos siempre tiene la misma estructura, así que una vez que la conoces, te orientas en cualquiera.</p>
     <figure class="diagram-wrap">
@@ -345,16 +381,16 @@
 
         <line x1="130" y1="325" x2="200" y2="360" stroke="currentColor" stroke-width="1" opacity="0.6" />
         <circle cx="130" cy="325" r="2.5" fill="currentColor" />
-        <text x="205" y="364" font-size="10.5" fill="currentColor" opacity="0.85">acceso programático (paso 6)</text>
+        <text x="205" y="364" font-size="10.5" fill="currentColor" opacity="0.85">acceso programático (paso 7)</text>
       </svg>
       <figcaption>Estructura habitual de una página de dataset en el catálogo: identificación y cadena de valor, descripción, recursos descargables y acceso a la API.</figcaption>
     </figure>
   </div>
 </section>
 
-<section class="step" id="paso5">
+<section class="step" id="paso6">
   <div class="wrap">
-    <span class="step__num">Paso 5</span>
+    <span class="step__num">Paso 6</span>
     <h2>Descargar un recurso</h2>
     <p class="step__lede">Cada recurso indica su formato (CSV, JSON, GeoJSON, Parquet…) antes de descargarlo.</p>
     <div class="step__body">
@@ -368,9 +404,9 @@
   </div>
 </section>
 
-<section class="step" id="paso6">
+<section class="step" id="paso7">
   <div class="wrap">
-    <span class="step__num">Paso 6</span>
+    <span class="step__num">Paso 7</span>
     <h2>Usar la API</h2>
     <p class="step__lede">Toda búsqueda y toda descarga que haces a mano en el portal también se puede pedir por programa, con la misma interfaz de programación de aplicaciones (API) que usa el propio catálogo.</p>
     <div class="step__body">
@@ -403,16 +439,16 @@ console.log(datos.result.results);</div>
   </div>
 </section>
 
-<section class="step" id="paso7">
+<section class="step" id="paso8">
   <div class="wrap">
-    <span class="step__num">Paso 7</span>
+    <span class="step__num">Paso 8</span>
     <span class="admin-only"><i aria-hidden="true"></i>Solo administradores del sistema</span>
     <h2>Añadir una fuente de datos nueva</h2>
-    <p class="step__lede">Si formas parte del equipo técnico y tienes permisos de administración, puedes dar de alta una fuente de recolección nueva directamente desde el portal, sin tocar código.</p>
+    <p class="step__lede">Si formas parte del equipo técnico y tienes permisos de administración, puedes dar de alta una fuente de recolección nueva directamente desde el portal, sin tocar código. Normalmente parte de una fuente marcada como "Pendiente de conectar" en el directorio del paso dos.</p>
     <div class="step__body">
       <ol>
         <li>Abre el menú de tu cuenta (arriba a la derecha). Si eres administrador del sistema, verás un enlace <strong>"Fuentes de datos"</strong> que no aparece para el resto de personas usuarias.</li>
-        <li>Pulsa "Añadir fuente" para abrir el formulario.</li>
+        <li>Pulsa "Fuentes de datos": te lleva directo al formulario.</li>
         <li>Rellena los campos: nombre, título, la URL de la API o el catálogo de origen, el tipo de fuente, la cadena de valor a la que pertenece y la frecuencia de actualización.</li>
         <li>Guarda. La fuente queda dada de alta; el equipo técnico ejecuta la primera recolección para traer los datos por primera vez.</li>
       </ol>
@@ -477,11 +513,15 @@ console.log(datos.result.results);</div>
       </details>
       <details>
         <summary>¿Hay límite de peticiones a la API?</summary>
-        <p>Para uso puntual, no. Si vas a hacer muchas peticiones seguidas, usa una clave de API (paso seis) para evitar bloqueos por exceso de tráfico.</p>
+        <p>Para uso puntual, no. Si vas a hacer muchas peticiones seguidas, usa una clave de API (paso siete) para evitar bloqueos por exceso de tráfico.</p>
       </details>
       <details>
         <summary>¿Por qué no veo el enlace "Fuentes de datos" en mi cuenta?</summary>
-        <p>Ese enlace y el formulario del paso siete solo están disponibles para administradores del sistema. Si necesitas añadir una fuente y no tienes ese permiso, contacta con el equipo técnico.</p>
+        <p>Ese enlace y el formulario del paso ocho solo están disponibles para administradores del sistema. Si necesitas añadir una fuente y no tienes ese permiso, contacta con el equipo técnico.</p>
+      </details>
+      <details>
+        <summary>¿Qué diferencia hay entre el filtro de país/sector de la portada y "Explorar por cadena de valor"?</summary>
+        <p>El filtro de la portada (paso dos) recorre un directorio de catálogos de cualquier país y sector, conectados o no. "Explorar por cadena de valor" (paso cuatro) es específico de la parte gallega: te lleva directo a los datasets que ya están dentro del portal para uno de los cuatro sectores de DATAlife.</p>
       </details>
     </div>
   </div>
@@ -496,8 +536,9 @@ console.log(datos.result.results);</div>
       <div><dt>CSV / JSON / GeoJSON</dt><dd>Formatos de archivo habituales para datos tabulares o geográficos.</dd></div>
       <div><dt>Organización (en CKAN)</dt><dd>La agrupación que usamos para representar cada cadena de valor de DATAlife.</dd></div>
       <div><dt>Recurso</dt><dd>Cada archivo concreto dentro de un dataset (por ejemplo, un CSV y un GeoJSON del mismo conjunto).</dd></div>
-      <div><dt>Fuente de recolección</dt><dd>La configuración que le dice al portal dónde y cómo recoger los datos de un organismo externo (paso siete).</dd></div>
+      <div><dt>Fuente de recolección</dt><dd>La configuración que le dice al portal dónde y cómo recoger los datos de un organismo externo (paso ocho).</dd></div>
       <div><dt>DCAT</dt><dd>Data Catalog Vocabulary: formato estándar en el que muchos organismos publican su catálogo de datos.</dd></div>
+      <div><dt>Directorio de catálogos</dt><dd>Listado curado de fuentes de datos abiertos por país/región y sector, con las que ya están conectadas marcadas como tal (paso dos).</dd></div>
     </dl>
     <p class="contact">¿Dudas o sugerencias sobre el portal? Escribe a <a href="mailto:raffaele@dihdatalife.com">raffaele@dihdatalife.com</a>.</p>
   </div>
