@@ -4,6 +4,12 @@
 {{ super() }}
 {% if c.userobj.sysadmin %}
 <li>
+  <a href="{{ h.url_for('datalife_explorer.explorar_catalogos') }}" title="{{ _('Explorar catálogos por país y sector') }}">
+    <i class="fa fa-globe" aria-hidden="true"></i>
+    <span class="text">{{ _('Explorar catálogos') }}</span>
+  </a>
+</li>
+<li>
   <a href="{{ h.url_for('harvest.new') }}" title="{{ _('Añadir fuente de datos') }}">
     <i class="fa fa-plus-circle" aria-hidden="true"></i>
     <span class="text">{{ _('Fuentes de datos') }}</span>

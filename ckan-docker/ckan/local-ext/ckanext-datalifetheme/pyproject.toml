@@ -18,4 +18,4 @@ build-backend = "setuptools.build_meta"
 include = ["ckanext*"]
 
 [tool.setuptools.package-data]
-"ckanext.datalifetheme" = ["templates/*.html", "public/*.svg"]
+"ckanext.datalifetheme" = ["templates/*.html", "public/*.svg", "data/*.json"]

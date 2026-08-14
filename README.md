@@ -1,6 +1,6 @@
-# Plataforma de Datos Abiertos de Galicia (DATAlife)
+# Plataforma de Datos Abiertos (DATAlife)
 
-Catálogo/agregador de datos abiertos relacionados con las cuatro cadenas de valor del Hub de Innovación Digital Europeo (EDIH, por sus siglas en inglés) DIH DATALIFE: Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología.
+Catálogo/agregador de datos abiertos. Nació centrado en Galicia y en las cuatro cadenas de valor del Hub de Innovación Digital Europeo (EDIH, por sus siglas en inglés) DIH DATALIFE (Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnología), y ahora amplía su alcance a cualquier país y sector: esas cuatro cadenas de valor siguen existiendo como una opción más, junto a un directorio creciente de catálogos internacionales.
 
 El plan completo (contexto, decisiones, fases) está en `C:\Users\Raffaele-DIHDatalife\.claude\plans\quiero-crear-una-plataforma-ancient-creek.md`.
 
@@ -10,8 +10,9 @@ El plan completo (contexto, decisiones, fases) está en `C:\Users\Raffaele-DIHDa
 - Extensiones de harvesting instaladas: [ckanext-harvest](https://github.com/ckan/ckanext-harvest) (harvester tipo `ckan`, para recolectar de otros CKAN), [ckanext-dcat](https://github.com/ckan/ckanext-dcat) (harvesters tipo `dcat_rdf` para catálogos DCAT/RDF como abertos.xunta.gal o datos.gob.es, y `dcat_json` para el formato DCAT-US JSON de portales ArcGIS Hub como opendata.esri.es) y dos harvesters propios para APIs que no exponen ni CKAN ni DCAT: `ckan-docker/ckan/local-ext/ckanext-igeharvester` (tipo `ige`, para el Instituto Galego de Estatística) y `ckan-docker/ckan/local-ext/ckanext-ineharvester` (tipo `ine`, para el Instituto Nacional de Estadística).
 - Taxonomía: 4 organizaciones creadas en CKAN, una por cada cadena de valor de DATAlife (ver [docs/taxonomia.md](docs/taxonomia.md)).
 - Inventario de fuentes candidatas por sector, con su estado de verificación técnica: [docs/fuentes.md](docs/fuentes.md).
-- **12 datasets reales conectados** desde 5 fuentes distintas (abertos.xunta.gal, datos.gob.es, IGE, INE, opendata.esri.es) usando 4 mecanismos de recolección (DCAT/RDF, DCAT JSON, y dos conectores a medida), cubriendo las cuatro cadenas de valor (detalle, avisos de calidad de datos y decisiones técnicas en docs/fuentes.md).
-- Personalización de marca e interfaz: logo de DATAlife en la cabecera (con aviso "Powered by CKAN"), y un formulario para añadir fuentes de datos manualmente (`/harvest/new`, ya incluido en CKAN) restringido a personas administradoras del sistema, con un enlace directo "Fuentes de datos" en su menú de cuenta (extensión `ckan-docker/ckan/local-ext/ckanext-datalifetheme`; detalle en docs/personalizacion.md).
+- **14 datasets reales conectados** desde 7 fuentes distintas — 5 de España/Galicia (abertos.xunta.gal, datos.gob.es, IGE, INE, opendata.esri.es) y 2 internacionales (data.gov.uk en Reino Unido, catálogo de la FAO a nivel mundial) — usando 4 mecanismos de recolección (DCAT/RDF, DCAT JSON, y dos conectores a medida), cubriendo las cuatro cadenas de valor (detalle, avisos de calidad de datos y decisiones técnicas en docs/fuentes.md).
+- **Explorador de catálogos** (`/explorar-catalogos`, solo administradores): directorio curado de catálogos de datos abiertos por país/región y sector — incluye ya 12 catálogos investigados y verificados, de España y de fuera — con una máscara de filtrado para decidir qué conectar antes de darlo de alta en el formulario de fuentes.
+- Personalización de marca e interfaz: formulario para añadir fuentes de datos manualmente (`/harvest/new`, ya incluido en CKAN) restringido a personas administradoras del sistema, con enlaces directos "Explorar catálogos" y "Fuentes de datos" en su menú de cuenta (extensión `ckan-docker/ckan/local-ext/ckanext-datalifetheme`; detalle en docs/personalizacion.md).
 
 ## Cómo levantar el entorno local
 
@@ -37,4 +38,4 @@ Servicios del stack (ver `ckan-docker/docker-compose.yml`):
 
 ## Próximos pasos
 
-Ver el estado técnico completo en [docs/fuentes.md](docs/fuentes.md). En resumen: abertos.xunta.gal, datos.gob.es y opendata.esri.es ya se recolectan vía DCAT (RDF o JSON según el caso), y el IGE y el INE ya tienen su propio conector a medida. Solo queda MeteoGalicia sin conectar (necesitaría otro conector a medida, para su API OGC WMS/WCS o para su API REST con clave). Queda decidir cómo escalar de "unos pocos datasets piloto" a la carga por sector, y retirar la organización `sandbox-pruebas` antes de producción.
+Ver el estado técnico completo en [docs/fuentes.md](docs/fuentes.md). En resumen: abertos.xunta.gal, datos.gob.es, opendata.esri.es, data.gov.uk y el catálogo de la FAO ya se recolectan vía DCAT (RDF o JSON según el caso), y el IGE y el INE ya tienen su propio conector a medida. Quedan en el directorio, investigados pero sin conector todavía: data.europa.eu, la OMS (GHO), Francia (data.gouv.fr) y Alemania (GovData) — y MeteoGalicia, de las fuentes gallegas. data.gov (Estados Unidos) quedó pendiente de reverificar. Queda decidir cómo seguir escalando por país/sector, y retirar la organización `sandbox-pruebas` antes de producción.

@@ -10,13 +10,64 @@ Personalizacion DATAlife para el portal:
    queda restringido a sysadmins, en vez de a cualquier persona con permiso
    de crear datasets en alguna organizacion (que es el comportamiento por
    defecto de ckanext-harvest).
+3. Un directorio curado de catalogos de datos abiertos (mundial, por pais
+   y sector) con una mascara de filtrado, para decidir que fuentes conectar
+   antes de darlas de alta con el formulario del punto 2.
 """
 
 from __future__ import absolute_import
 
+import json
+import os
+
+from flask import Blueprint, request
+
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from ckanext.harvest.logic.auth import user_is_sysadmin
+
+
+_DIRECTORY_PATH = os.path.join(
+    os.path.dirname(__file__), "data", "catalog_directory.json"
+)
+
+
+def _load_directory():
+    with open(_DIRECTORY_PATH, encoding="utf-8") as f:
+        return json.load(f)
+
+
+datalife_explorer = Blueprint("datalife_explorer", __name__)
+
+
+@datalife_explorer.route("/explorar-catalogos")
+def explorar_catalogos():
+    directorio = _load_directory()
+
+    pais_sel = request.args.get("pais", "").strip()
+    sector_sel = request.args.get("sector", "").strip()
+
+    paises = sorted({d["pais"] for d in directorio})
+    sectores = sorted({s for d in directorio for s in d["sectores"]})
+
+    resultados = directorio
+    if pais_sel:
+        resultados = [d for d in resultados if d["pais"] == pais_sel]
+    if sector_sel:
+        resultados = [d for d in resultados if sector_sel in d["sectores"]]
+
+    return toolkit.render(
+        "explorar_catalogos.html",
+        extra_vars={
+            "directorio": resultados,
+            "paises": paises,
+            "sectores": sectores,
+            "pais_sel": pais_sel,
+            "sector_sel": sector_sel,
+            "total": len(directorio),
+            "total_filtrado": len(resultados),
+        },
+    )
 
 
 @toolkit.chained_auth_function
@@ -44,6 +95,7 @@ def _restrict_harvest_source_create_to_sysadmin(next_auth, context, data_dict=No
 class DatalifeThemePlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.IAuthFunctions)
+    plugins.implements(plugins.IBlueprint)
 
     # IConfigurer
 
@@ -57,3 +109,8 @@ class DatalifeThemePlugin(plugins.SingletonPlugin):
         return {
             "package_create": _restrict_harvest_source_create_to_sysadmin,
         }
+
+    # IBlueprint
+
+    def get_blueprint(self):
+        return datalife_explorer

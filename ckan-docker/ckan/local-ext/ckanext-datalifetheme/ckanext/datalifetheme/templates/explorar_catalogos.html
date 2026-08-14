@@ -1,0 +1,107 @@
+{% extends "page.html" %}
+
+{% set sector_labels = {
+  "general": "General / todos los sectores",
+  "agro-mar-alimentacion": "Agro-Mar-Alimentación",
+  "forestal-madera": "Forestal-Madera",
+  "salud-cuidados": "Salud-Cuidados",
+  "biotecnologia": "Biotecnología"
+} %}
+
+{% block subtitle %}{{ _('Explorar catálogos') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{{ _('Explorar catálogos') }}</li>
+{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="page-heading">{{ _('Explorar catálogos de datos abiertos') }}</h1>
+  <p>
+    {{ _('Directorio curado de catálogos de datos abiertos por país/región y sector, para decidir qué fuentes conectar antes de darlas de alta en') }}
+    <a href="{{ h.url_for('harvest.new') }}">{{ _('Fuentes de datos') }}</a>.
+    {{ _('Se amplía a medida que se investigan y verifican nuevas fuentes.') }}
+  </p>
+
+  <form method="get" action="{{ h.url_for('datalife_explorer.explorar_catalogos') }}" class="form-inline" style="margin: 20px 0; display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end;">
+    <div class="form-group control-medium">
+      <label for="field-pais" style="display:block; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#666;">{{ _('País / región') }}</label>
+      <select id="field-pais" name="pais" class="form-control">
+        <option value="">{{ _('Todos') }}</option>
+        {% for p in paises %}
+        <option value="{{ p }}" {% if p == pais_sel %}selected{% endif %}>{{ p }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group control-medium">
+      <label for="field-sector" style="display:block; font-size:12px; text-transform:uppercase; letter-spacing:.03em; color:#666;">{{ _('Sector') }}</label>
+      <select id="field-sector" name="sector" class="form-control">
+        <option value="">{{ _('Todos') }}</option>
+        {% for s in sectores %}
+        <option value="{{ s }}" {% if s == sector_sel %}selected{% endif %}>{{ sector_labels.get(s, s) }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">{{ _('Filtrar') }}</button>
+      {% if pais_sel or sector_sel %}
+      <a href="{{ h.url_for('datalife_explorer.explorar_catalogos') }}" class="btn btn-default">{{ _('Quitar filtros') }}</a>
+      {% endif %}
+    </div>
+  </form>
+
+  <p class="text-muted">
+    {{ _('Mostrando') }} {{ total_filtrado }} {{ _('de') }} {{ total }} {{ _('catálogos') }}
+  </p>
+
+  {% if not directorio %}
+  <p class="empty">{{ _('No hay catálogos que coincidan con ese filtro todavía. El directorio sigue creciendo.') }}</p>
+  {% endif %}
+
+  {% for c in directorio %}
+  <div class="module module-narrow" style="border:1px solid #ddd; border-radius:6px; padding:16px; margin-bottom:14px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap;">
+      <div>
+        <h3 style="margin:0 0 4px 0;">{{ c.nombre }}</h3>
+        <p style="margin:0; color:#666; font-size:13px;">
+          {{ c.pais }}{% if c.region %} · {{ c.region }}{% endif %}
+          · <code>{{ c.tecnologia }}</code>
+        </p>
+      </div>
+      <div>
+        {% if c.ya_conectado %}
+        <span class="label label-success">{{ _('Ya conectado') }}</span>
+        {% else %}
+        <span class="label label-default">{{ _('Pendiente de conectar') }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    <p style="margin:10px 0 6px 0;">
+      {% for s in c.sectores %}
+      <span class="label label-info" style="margin-right:4px;">{{ sector_labels.get(s, s) }}</span>
+      {% endfor %}
+    </p>
+
+    <p style="margin:6px 0;"><code style="word-break:break-all;">{{ c.url_catalogo }}</code></p>
+    <p style="margin:6px 0; color:#555; font-size:13.5px;">{{ c.notas }}</p>
+
+    {% if not c.ya_conectado %}
+    <p style="margin:10px 0 0 0; font-size:13px;">
+      {{ _('Para conectarlo: en') }} <a href="{{ h.url_for('harvest.new') }}">{{ _('Fuentes de datos') }}</a>,
+      {{ _('usa la URL de arriba y elige el tipo de fuente') }} <code>{{ c.tecnologia }}</code>.
+    </p>
+    {% endif %}
+  </div>
+  {% endfor %}
+{% endblock %}
+
+{% block secondary_content %}
+  <div class="module module-narrow module-shallow">
+    <h2 class="module-heading">{{ _('Sobre este directorio') }}</h2>
+    <div class="module-content">
+      <p>{{ _('Cada entrada se ha verificado manualmente con una petición real antes de añadirse aquí. No es un rastreador automático: es un punto de partida curado para decidir, país y sector a la vez, qué fuentes merece la pena conectar.') }}</p>
+    </div>
+  </div>
+{% endblock %}

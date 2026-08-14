@@ -1,0 +1,134 @@
+[
+  {
+    "nombre": "abertos.xunta.gal",
+    "pais": "España",
+    "region": "Galicia",
+    "sectores": ["agro-mar-alimentacion", "forestal-madera", "salud-cuidados", "biotecnologia", "general"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://abertos.xunta.gal/busca-de-datos.rdf",
+    "notas": "Catálogo completo (564 datasets a fecha de verificación). No filtra por categoría a nivel de URL: hay que conectar dataset a dataset con su endpoint RDF individual.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "datos.gob.es",
+    "pais": "España",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://datos.gob.es/apidata/catalog/dataset.rdf",
+    "notas": "Su API nativa de CKAN está bloqueada por firewall desde algunas redes; usar la API de datos enlazados (/apidata/...) evita el problema. Admite filtrar por editor y por tema.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "IGE (Instituto Galego de Estatística)",
+    "pais": "España",
+    "region": "Galicia",
+    "sectores": ["general", "salud-cuidados"],
+    "tecnologia": "ige",
+    "url_catalogo": "https://www.ige.gal/igebdt/igeapi/json/datos/{código de táboa}",
+    "notas": "API REST propia, sin catálogo CKAN ni DCAT. Requiere el conector a medida ige_harvester ya construido.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "INE (Instituto Nacional de Estadística)",
+    "pais": "España",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "ine",
+    "url_catalogo": "https://servicios.ine.es/wstempus/js/ES/DATOS_TABLA/{código de tabla}",
+    "notas": "API Tempus3 propia, sin catálogo CKAN ni DCAT. Requiere el conector a medida ine_harvester ya construido.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "opendata.esri.es",
+    "pais": "España",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "dcat_json",
+    "url_catalogo": "https://opendata.esri.es/api/feed/dcat-us/1.1.json",
+    "notas": "Hub de ArcGIS que agrega datasets de decenas de administraciones españolas. 1.440 datasets en total; filtrar por ?id={identificador} para conectar uno concreto.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "data.gov.uk",
+    "pais": "Reino Unido",
+    "region": null,
+    "sectores": ["agro-mar-alimentacion", "general"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://ckan.publishing.service.gov.uk/dataset/{nombre-del-dataset}.rdf",
+    "notas": "Es CKAN nativo (59.000+ datasets), pero el endpoint status_show está bloqueado; package_search y el RDF por dataset individual sí funcionan. Ya conectado: \"Sustainable fisheries\" (DEFRA), en agro-mar-alimentacion.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "FAO catalog (data.apps.fao.org)",
+    "pais": "Global",
+    "region": null,
+    "sectores": ["agro-mar-alimentacion", "forestal-madera"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://data.apps.fao.org/catalog/dataset/{id}.rdf",
+    "notas": "Catálogo CKAN de la Organización de las Naciones Unidas para la Alimentación y la Agricultura (FAO): suelo, agua, pesca, silvicultura, clima (cerca de 12.000 datasets). Ya conectado: \"Forest cover\", en forestal-madera.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "Unión Europea (data.europa.eu)",
+    "pais": "Unión Europea",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "custom",
+    "url_catalogo": "https://data.europa.eu/api/hub/search/search?q=… (también SPARQL en https://data.europa.eu/sparql)",
+    "notas": "Agrega los portales nacionales (incluye datos.gob.es, GovData...). Ni CKAN ni un feed DCAT plano: API REST propia de búsqueda + SPARQL sobre RDF/DCAT-AP. Necesitaría un conector a medida.",
+    "estado": "verificado",
+    "ya_conectado": false
+  },
+  {
+    "nombre": "GHO — Global Health Observatory (OMS)",
+    "pais": "Global",
+    "region": null,
+    "sectores": ["salud-cuidados"],
+    "tecnologia": "custom",
+    "url_catalogo": "https://ghoapi.azureedge.net/api/Indicator",
+    "notas": "API OData de la Organización Mundial de la Salud (OMS), pública, sin autenticación. Formato distinto de todo lo que ya tenemos: necesitaría un conector a medida (igual que se hizo para el IGE y el INE).",
+    "estado": "verificado",
+    "ya_conectado": false
+  },
+  {
+    "nombre": "data.gouv.fr",
+    "pais": "Francia",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "custom",
+    "url_catalogo": "https://www.data.gouv.fr/api/1/datasets/",
+    "notas": "No es CKAN: usa la plataforma \"udata\", con API JSON propia (73.000+ datasets). Necesitaría un conector a medida.",
+    "estado": "verificado",
+    "ya_conectado": false
+  },
+  {
+    "nombre": "GovData (Alemania)",
+    "pais": "Alemania",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "ckan",
+    "url_catalogo": "https://ckan.govdata.de/api/3/action/package_search",
+    "notas": "CKAN nativo confirmado (versión 2.10.10), acceso público. Pendiente de elegir un dataset u organización concreta para conectar (evitar traer los más de 700 datasets del catálogo entero de golpe).",
+    "estado": "verificado",
+    "ya_conectado": false
+  },
+  {
+    "nombre": "data.gov (Estados Unidos)",
+    "pais": "Estados Unidos",
+    "region": null,
+    "sectores": ["general"],
+    "tecnologia": "desconocido",
+    "url_catalogo": "https://catalog.data.gov/",
+    "notas": "La documentación oficial dice que es CKAN, pero el endpoint clásico de la API (/api/3/action/status_show) devolvió HTTP 404 en la verificación. Pendiente de reintentar antes de dar por bueno ningún conector.",
+    "estado": "pendiente_de_reverificar",
+    "ya_conectado": false
+  }
+]
