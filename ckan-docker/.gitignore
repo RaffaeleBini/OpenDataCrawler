@@ -10,3 +10,5 @@ local/*
 .env
 .api_token.txt
 .secrets_generated.txt
+.metabase_password.txt
+.metabase_session.txt

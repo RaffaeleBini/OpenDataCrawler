@@ -10,18 +10,28 @@ El plan completo (contexto, decisiones, fases) está en `C:\Users\Raffaele-DIHDa
 - Extensiones de harvesting instaladas: [ckanext-harvest](https://github.com/ckan/ckanext-harvest) (harvester tipo `ckan`, para recolectar de otros CKAN), [ckanext-dcat](https://github.com/ckan/ckanext-dcat) (harvesters tipo `dcat_rdf` para catálogos DCAT/RDF como abertos.xunta.gal o datos.gob.es, y `dcat_json` para el formato DCAT-US JSON de portales ArcGIS Hub como opendata.esri.es) y dos harvesters propios para APIs que no exponen ni CKAN ni DCAT: `ckan-docker/ckan/local-ext/ckanext-igeharvester` (tipo `ige`, para el Instituto Galego de Estatística) y `ckan-docker/ckan/local-ext/ckanext-ineharvester` (tipo `ine`, para el Instituto Nacional de Estadística).
 - Taxonomía: 14 organizaciones creadas en CKAN — las 4 cadenas de valor originales de DATAlife más 10 sectores nuevos (Medio Ambiente y Clima, Energía, Transporte y Movilidad, Ciencia/Tecnología e I+D, Economía y Finanzas Públicas, Educación, Cultura y Turismo, Vivienda y Urbanismo, Gobierno y Sector Público, Demografía y Sociedad) — para cubrir cualquier sector, no solo los de DATAlife (ver [docs/taxonomia.md](docs/taxonomia.md)).
 - Inventario de fuentes candidatas por sector, con su estado de verificación técnica: [docs/fuentes.md](docs/fuentes.md).
-- **14 datasets reales conectados** desde 7 fuentes distintas — 5 de España/Galicia (abertos.xunta.gal, datos.gob.es, IGE, INE, opendata.esri.es) y 2 internacionales (data.gov.uk en Reino Unido, catálogo de la FAO a nivel mundial) — usando 4 mecanismos de recolección (DCAT/RDF, DCAT JSON, y dos conectores a medida), cubriendo las cuatro cadenas de valor (detalle, avisos de calidad de datos y decisiones técnicas en docs/fuentes.md).
+- **15 datasets reales conectados** desde 8 fuentes distintas — 5 de España/Galicia (abertos.xunta.gal, datos.gob.es, IGE, INE, opendata.esri.es) y 3 internacionales (data.gov.uk en Reino Unido, catálogo de la FAO a nivel mundial, GovData en Alemania) — usando 4 mecanismos de recolección (DCAT/RDF, DCAT JSON, y dos conectores a medida), cubriendo las cuatro cadenas de valor (detalle, avisos de calidad de datos y decisiones técnicas en docs/fuentes.md).
 - **Explorador de catálogos** (`/explorar-catalogos`, solo administradores): directorio curado de catálogos de datos abiertos por país/región y sector — incluye ya 12 catálogos investigados y verificados, de España y de fuera — con una máscara de filtrado para decidir qué conectar antes de darlo de alta en el formulario de fuentes.
 - Personalización de marca e interfaz: formulario para añadir fuentes de datos manualmente (`/harvest/new`, ya incluido en CKAN) restringido a personas administradoras del sistema, con enlaces directos "Explorar catálogos" y "Fuentes de datos" en su menú de cuenta (extensión `ckan-docker/ckan/local-ext/ckanext-datalifetheme`; detalle en docs/personalizacion.md).
+- **Cuadro de mando** (`http://localhost:3000`, enlazado desde la cabecera del portal): [Metabase](https://www.metabase.com/) conectado en modo lectura al DataStore de CKAN, para construir gráficos, mapas y tablas dinámicas sobre los datasets ya cargados en el catálogo, sin salir de la plataforma. Detalle de qué datasets son visualizables hoy y cómo añadir nuevas visualizaciones en [docs/cuadro-de-mando.md](docs/cuadro-de-mando.md).
 
 ## Cómo levantar el entorno local
 
-```bash
-cd ckan-docker
-docker compose up -d
-```
+1. Asegúrate de que Docker Desktop está en marcha.
+2. Abre una terminal en la carpeta del proyecto y entra en `ckan-docker`:
+   ```bash
+   cd ckan-docker
+   ```
+3. Levanta todo el stack:
+   ```bash
+   docker compose up -d
+   ```
+4. Espera a que los contenedores estén sanos (`docker compose ps`, especialmente `ckan` y `metabase` en estado `healthy`; `ckan` puede tardar un minuto en el primer arranque).
+5. Accede:
+   - **Catálogo (CKAN)**: `https://localhost:8443` (certificado autofirmado de desarrollo, hay que aceptar la advertencia del navegador). Credenciales de administrador: usuario `CKAN_SYSADMIN_NAME` y contraseña `CKAN_SYSADMIN_PASSWORD` en `ckan-docker/.env` (no versionado), también recogidas en `ckan-docker/.secrets_generated.txt`.
+   - **Cuadro de mando (Metabase)**: `http://localhost:3000`, o desde el enlace "Cuadro de mando" en la cabecera del portal. Correo `raffaele@dihdatalife.com`, contraseña en `ckan-docker/.metabase_password.txt` (no versionado).
 
-CKAN queda accesible en `https://localhost:8443` (certificado autofirmado de desarrollo, hay que aceptar la advertencia del navegador). Las credenciales de administrador están en `ckan-docker/.env` (no versionado) y en `ckan-docker/.secrets_generated.txt`.
+Para parar todo: `docker compose down` (los datos persisten en los volúmenes Docker; no borra nada).
 
 Servicios del stack (ver `ckan-docker/docker-compose.yml`):
 
@@ -35,7 +45,8 @@ Servicios del stack (ver `ckan-docker/docker-compose.yml`):
 | `datapusher` | Volcado de recursos tabulares al Datastore |
 | `harvest-gather` / `harvest-fetch` | Procesos consumidores de las colas de recolección (`ckan harvester gather-consumer` / `fetch-consumer`) |
 | `harvest-scheduler` | Lanza `ckan harvester run` cada 5 minutos para procesar los harvest jobs pendientes |
+| `metabase` | Cuadro de mando (BI, Business Intelligence): gráficos, mapas y tablas dinámicas sobre el DataStore |
 
 ## Próximos pasos
 
-Ver el estado técnico completo en [docs/fuentes.md](docs/fuentes.md). En resumen: abertos.xunta.gal, datos.gob.es, opendata.esri.es, data.gov.uk y el catálogo de la FAO ya se recolectan vía DCAT (RDF o JSON según el caso), y el IGE y el INE ya tienen su propio conector a medida. Quedan en el directorio, investigados pero sin conector todavía: data.europa.eu, la OMS (GHO), Francia (data.gouv.fr) y Alemania (GovData) — y MeteoGalicia, de las fuentes gallegas. data.gov (Estados Unidos) quedó pendiente de reverificar. Queda decidir cómo seguir escalando por país/sector, y retirar la organización `sandbox-pruebas` antes de producción.
+Ver el estado técnico completo en [docs/fuentes.md](docs/fuentes.md). En resumen: abertos.xunta.gal, datos.gob.es, opendata.esri.es, data.gov.uk, GovData (Alemania) y el catálogo de la FAO ya se recolectan vía DCAT (RDF o JSON según el caso), y el IGE y el INE ya tienen su propio conector a medida. Quedan en el directorio, investigados pero sin conector todavía: data.europa.eu, la OMS (GHO) y Francia (data.gouv.fr) — y MeteoGalicia, de las fuentes gallegas. data.gov (Estados Unidos) se reverificó y sigue bloqueado. Queda decidir cómo seguir escalando por país/sector; la organización `sandbox-pruebas` ya se retiró.

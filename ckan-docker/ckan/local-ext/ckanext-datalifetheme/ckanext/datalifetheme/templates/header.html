@@ -12,6 +12,12 @@
       h.humanize_entity_type('group', group_type, 'main nav') or _('Groups'), ['group']),
     ('datalife_explorer.explorar_catalogos', _('Explorar catálogos')),
     ('home.about', _('About')) ) }}
+<li>
+  <a href="http://localhost:3000" target="_blank" rel="noopener noreferrer" title="{{ _('Cuadro de mando') }}">
+    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+    <span class="text">{{ _('Cuadro de mando') }}</span>
+  </a>
+</li>
 {% endblock %}
 
 {% block header_account_logged %}

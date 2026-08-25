@@ -13,9 +13,17 @@ Lo que sí hemos añadido:
   - Verificado con una persona editora de prueba (sin ser sysadmin): se le bloquea la creación de una fuente de harvesting con el mensaje "Solo las personas administradoras del sistema pueden añadir fuentes de datos", pero puede seguir creando datasets normales sin problema. Un sysadmin sigue pudiendo crear fuentes sin restricción.
 - **Enlace directo "Fuentes de datos"** en el menú de cuenta, junto a "Admin", visible solo para sysadmins (comprobado también con una persona no-sysadmin: no le aparece el enlace).
 
-## 2. Logo de DATAlife (probado y revertido)
+## 2. Logo e identidad de marca de DATAlife
 
-Se sustituyó el logo de la esquina superior izquierda por el de DATAlife, con un aviso "Powered by CKAN" debajo. Se revirtió después, al saberse que DATAlife ya cuenta con una herramienta de este tipo: el portal vuelve a mostrar el logo original de CKAN. El fichero del logo (`ckanext/datalifetheme/public/datalife-logo.svg`) se dejó en la extensión sin usar, por si hiciera falta en el futuro; para reactivarlo bastaría con volver a añadir el bloque `header_logo` que se quitó de `templates/header.html`.
+*(Nota: el logo se probó y se revirtió en una sesión anterior, al saberse que DATAlife ya contaba con otra herramienta de este tipo. Esa decisión queda superada: se continúa este desarrollo con la marca de DATAlife aplicada de forma definitiva, junto con la paleta de color oficial.)*
+
+El portal usa el logo oficial de DIH DATALIFE y su paleta de color, sin necesidad de tocar plantillas ni reconstruir la imagen `ckan` para los cambios de color:
+
+- **Logo** (`ckanext/datalifetheme/public/datalife-logo.svg`, logotipo completo) enganchado vía la configuración estándar de CKAN `ckan.site_logo`, aplicada en caliente con la acción de API `config_option_update` (sysadmin).
+- **Favicon**: recorte del icono sin el texto "DATAlife" (`ckanext/datalifetheme/public/datalife-icon.svg`, mismo `<defs>`/degradados del logo original, solo los paths del icono), configurado vía `ckan.favicon`. A diferencia del logo, este ajuste **no** es editable en caliente por la API (no está marcado `editable` en la configuración de CKAN); se fija con la variable de entorno `CKAN___CKAN__FAVICON` en `ckan-docker/.env`, que requiere reiniciar el contenedor `ckan` (no reconstruir la imagen) para aplicarse.
+- **Colores**: paleta oficial (Teal Green `#00a79d`, Cyan Blue `#00aeef`, Dark Charcoal `#414042`, Off White `#f1f2f2`) aplicada como CSS mediante la configuración `ckan.site_custom_css` (mecanismo nativo de CKAN para CSS a medida, sin necesidad de un pipeline de `webassets` propio): gradiente Teal→Cyan en la cabecera, enlaces y botones primarios en Cyan Blue con estado `hover` en Teal Green, etiquetas en Teal Green, fondo general en Off White.
+- **Título del sitio**: `ckan.site_title` actualizado a "DATAlife - Plataforma de Datos Abiertos" (antes, el valor por defecto "CKAN").
+- Metabase (el cuadro de mando) mantiene solo el nombre de sitio ya configurado ("Cuadro de mando DATAlife"); el "white-labeling" completo (logo propio, retirar la marca Metabase) es una función de pago no disponible en la edición gratuita desplegada.
 
 ## 3. Sectores ampliados (14 organizaciones, no solo las 4 de DATAlife)
 
