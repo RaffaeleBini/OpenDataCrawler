@@ -113,12 +113,12 @@
     "nombre": "GovData (Alemania)",
     "pais": "Alemania",
     "region": null,
-    "sectores": ["general"],
-    "tecnologia": "ckan",
-    "url_catalogo": "https://ckan.govdata.de/api/3/action/package_search",
-    "notas": "CKAN nativo confirmado (versión 2.10.10), acceso público. Pendiente de elegir un dataset u organización concreta para conectar (evitar traer los más de 700 datasets del catálogo entero de golpe).",
+    "sectores": ["general", "salud-cuidados"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://ckan.govdata.de/dataset/{nombre-del-dataset}.rdf",
+    "notas": "CKAN nativo confirmado (versión 2.10.10), con ckanext-dcat activado en su lado (expone RDF por dataset individual, igual que abertos.xunta.gal/data.gov.uk/FAO). Ya conectado: \"Krankenhaus\" (hospitales y clínicas de Dortmund, agregado desde el portal regional Open.NRW), en salud-cuidados.",
     "estado": "verificado",
-    "ya_conectado": false
+    "ya_conectado": true
   },
   {
     "nombre": "data.gov (Estados Unidos)",

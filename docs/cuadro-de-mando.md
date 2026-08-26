@@ -50,6 +50,23 @@ El resto de datasets del catálogo son mayoritariamente enlaces a páginas inter
 
 ## Cómo añadir una nueva conexión de datos en Metabase
 
+### Automático: botón "Enviar a Metabase"
+
+Cada fuente ya conectada en [Explorar catálogos](/explorar-catalogos) (`/explorar-catalogos`, solo administradores) tiene un botón **"Enviar a Metabase"** debajo de su etiqueta "Ya conectado". Al pulsarlo:
+
+1. Se localizan todas las fuentes de harvesting conectadas para ese mismo dominio (p. ej. todas las de `abertos.xunta.gal`, aunque haya varias fuentes/datasets distintos del mismo origen).
+2. De todos sus datasets, se cargan al DataStore (`datapusher_submit`) los recursos con un formato que `datapusher` sabe procesar (csv, xls, xlsx, tsv, ods) que todavía no estén cargados.
+3. Se sincroniza en caliente la conexión de Metabase al DataStore, para que las tablas nuevas aparezcan sin esperar al ciclo periódico de Metabase.
+4. Se muestra un resumen ("N enviados; M ya estaban cargados; K con formato no soportado, omitidos").
+
+**Límites a tener en cuenta**:
+- Solo actúa sobre datasets **ya conectados** al catálogo — no crea datasets nuevos ni conecta fuentes nuevas.
+- "Enviado" significa que se ha encolado la carga, no que haya terminado con éxito: si el fichero de origen tiene un problema real (cabecera mal formada, redirige a una página en vez de a un fichero, certificado SSL roto…), la carga puede fallar igualmente — el mismo tipo de aviso de calidad de datos ya documentado más arriba y en `docs/fuentes.md`.
+- La sincronización con Metabase es inmediata solo si la carga termina en los pocos segundos posteriores al clic; para recursos grandes que tardan más, la tabla aparece en la siguiente sincronización periódica de Metabase (o volviendo a pulsar el botón más tarde).
+- Algunas fuentes DCAT-AP europeas (comprobado con GovData/Alemania) guardan el formato del recurso como la URI completa del vocabulario europeo de tipos de fichero (p. ej. `http://publications.europa.eu/resource/authority/file-type/XLS`) en vez de simplemente `xls`. `datapusher` usa ese mismo valor para detectar el tipo de fichero y no lo reconoce, así que estos recursos se marcan como "formato no soportado" aunque el fichero real sí sea un XLS o CSV válido — es una limitación del propio `datapusher`, no de este botón.
+
+### Manual
+
 1. Cargar el recurso en el DataStore de CKAN (si no lo está ya): llamar a la acción `datapusher_submit` de la API de CKAN para ese recurso, o esperar a que `datapusher` lo procese si el recurso se conecta desde cero.
 2. Metabase ya está conectado al DataStore completo (`Configuración > Administración > Bases de datos > Catálogo DATAlife (DataStore CKAN)`), así que cualquier recurso nuevo cargado en el DataStore aparece automáticamente como una tabla nueva tras la sincronización periódica de Metabase (o forzando una sincronización manual desde esa misma pantalla).
 3. Desde "Nueva pregunta" en Metabase, elegir la tabla (el nombre de la tabla es el UUID del recurso en CKAN — se puede identificar copiando el UUID desde la URL del recurso en el catálogo) y construir el gráfico, mapa o tabla dinámica deseado.
