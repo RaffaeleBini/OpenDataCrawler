@@ -121,6 +121,17 @@
     "ya_conectado": true
   },
   {
+    "nombre": "MeteoGalicia",
+    "pais": "España",
+    "region": "Galicia",
+    "sectores": ["agro-mar-alimentacion", "medio-ambiente-clima", "general"],
+    "tecnologia": "mg",
+    "url_catalogo": "https://servizos.meteogalicia.gal/mgrss/observacion/datosDiariosEstacionsMeteo.action",
+    "notas": "Varios servizos JSON públicos e sen autenticación (estado actual, datos diarios/horarios/mensuais das estacións), sen catálogo CKAN nin DCAT. Conector a medida construido (ckanext-mgharvester, source_type mg), que pide unha fiestra móbil dos últimos 7 días. Ya conectado: datos diarios das 170 estacións da rede (temperatura, choiva, vento, humidade...), en medio-ambiente-clima, con recurso JSON (fonte orixinal) e CSV xerado polo propio conector (23.537 filas, cargado ao DataStore automaticamente).",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
     "nombre": "GovData (Alemania)",
     "pais": "Alemania",
     "region": null,

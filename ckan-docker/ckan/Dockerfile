@@ -37,6 +37,12 @@ RUN pip3 install -e ${APP_DIR}/src/ckanext-ghoharvester
 COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-dgfharvester ${APP_DIR}/src/ckanext-dgfharvester
 RUN pip3 install -e ${APP_DIR}/src/ckanext-dgfharvester
 
+### MeteoGalicia (DATAlife: harvester a medida para los servicios JSON de
+### la red de estaciones meteorologicas, que tampoco expone catalogo CKAN
+### ni DCAT) ###
+COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-mgharvester ${APP_DIR}/src/ckanext-mgharvester
+RUN pip3 install -e ${APP_DIR}/src/ckanext-mgharvester
+
 ### Tema DATAlife (logo propio, "powered by CKAN", formulario de fuentes
 ### de datos restringido a sysadmins) ###
 COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-datalifetheme ${APP_DIR}/src/ckanext-datalifetheme
