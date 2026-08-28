@@ -83,31 +83,42 @@
     "sectores": ["general"],
     "tecnologia": "custom",
     "url_catalogo": "https://data.europa.eu/api/hub/search/search?q=… (también SPARQL en https://data.europa.eu/sparql)",
-    "notas": "Agrega los portales nacionales (incluye datos.gob.es, GovData...). Ni CKAN ni un feed DCAT plano: API REST propia de búsqueda + SPARQL sobre RDF/DCAT-AP. Necesitaría un conector a medida.",
+    "notas": "Agrega los portales nacionales (incluye datos.gob.es, GovData...). Ni CKAN ni un feed DCAT plano: API REST propia de búsqueda (resultados muy pesados, ~24 traducciones por campo) + SPARQL sobre RDF/DCAT-AP; los enlaces de dataset (.rdf, negociación de contenido) devuelven HTML, no RDF real. Se usa como directorio de descubrimiento, no como fuente de harvesting directa: sirvió para encontrar el dataset agrario de Irlanda (ver entrada data.gov.ie), que se conectó directamente a su portal de origen, más fiable que pasar por el agregador.",
     "estado": "verificado",
-    "ya_conectado": false
+    "ya_conectado": true
+  },
+  {
+    "nombre": "data.gov.ie (Irlanda)",
+    "pais": "Irlanda",
+    "region": null,
+    "sectores": ["agro-mar-alimentacion", "general"],
+    "tecnologia": "dcat_rdf",
+    "url_catalogo": "https://data.gov.ie/dataset/{nombre-del-dataset}.rdf",
+    "notas": "CKAN nativo (2.9.14) con ckanext-dcat activo, igual que GovData/data.gov.uk/FAO: expone RDF por dataset individual. Descubierto a través de data.europa.eu. Ya conectado: \"AVA08 - Agriculture Holdings\" (explotaciones agrarias por división electoral, tamaño y año), publicado por la Central Statistics Office de Irlanda, en agro-mar-alimentacion.",
+    "estado": "verificado",
+    "ya_conectado": true
   },
   {
     "nombre": "GHO — Global Health Observatory (OMS)",
     "pais": "Global",
     "region": null,
     "sectores": ["salud-cuidados"],
-    "tecnologia": "custom",
+    "tecnologia": "gho",
     "url_catalogo": "https://ghoapi.azureedge.net/api/Indicator",
-    "notas": "API OData de la Organización Mundial de la Salud (OMS), pública, sin autenticación. Formato distinto de todo lo que ya tenemos: necesitaría un conector a medida (igual que se hizo para el IGE y el INE).",
+    "notas": "API OData de la Organización Mundial de la Salud (OMS), pública, sin autenticación. Conector a medida construido (ckanext-ghoharvester, source_type gho). Ya conectado: indicador WHOSIS_000001 (Esperanza de vida al nacer), en salud-cuidados, con recurso JSON (fuente original) y CSV generado por el propio conector (subido a CKAN, cargable al DataStore).",
     "estado": "verificado",
-    "ya_conectado": false
+    "ya_conectado": true
   },
   {
     "nombre": "data.gouv.fr",
     "pais": "Francia",
     "region": null,
-    "sectores": ["general"],
-    "tecnologia": "custom",
-    "url_catalogo": "https://www.data.gouv.fr/api/1/datasets/",
-    "notas": "No es CKAN: usa la plataforma \"udata\", con API JSON propia (73.000+ datasets). Necesitaría un conector a medida.",
+    "sectores": ["general", "agro-mar-alimentacion"],
+    "tecnologia": "dgf",
+    "url_catalogo": "https://www.data.gouv.fr/api/1/datasets/{id}/",
+    "notas": "No es CKAN: usa la plataforma \"udata\", con API JSON propia (73.000+ datasets), sin DCAT/RDF por dataset. Conector a medida construido (ckanext-dgfharvester, source_type dgf) — no hace falta generar ficheros, la API ya da URLs de descarga reales con formato correcto. Ya conectado: \"Aides publiques aux agriculteurs et agricultrices\" (Ministère de l'Agriculture), en agro-mar-alimentacion, actualizado semanalmente.",
     "estado": "verificado",
-    "ya_conectado": false
+    "ya_conectado": true
   },
   {
     "nombre": "GovData (Alemania)",

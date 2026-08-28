@@ -27,6 +27,16 @@ RUN pip3 install -e ${APP_DIR}/src/ckanext-igeharvester
 COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-ineharvester ${APP_DIR}/src/ckanext-ineharvester
 RUN pip3 install -e ${APP_DIR}/src/ckanext-ineharvester
 
+### OMS/GHO (DATAlife: harvester a medida para la API OData del Global
+### Health Observatory, que tampoco expone catalogo CKAN ni DCAT) ###
+COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-ghoharvester ${APP_DIR}/src/ckanext-ghoharvester
+RUN pip3 install -e ${APP_DIR}/src/ckanext-ghoharvester
+
+### Francia/data.gouv.fr (DATAlife: harvester a medida para la API JSON de
+### la plataforma udata, que tampoco expone catalogo CKAN ni DCAT) ###
+COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-dgfharvester ${APP_DIR}/src/ckanext-dgfharvester
+RUN pip3 install -e ${APP_DIR}/src/ckanext-dgfharvester
+
 ### Tema DATAlife (logo propio, "powered by CKAN", formulario de fuentes
 ### de datos restringido a sysadmins) ###
 COPY --chown=ckan-sys:ckan-sys local-ext/ckanext-datalifetheme ${APP_DIR}/src/ckanext-datalifetheme

@@ -57,7 +57,8 @@ Cada fuente ya conectada en [Explorar catálogos](/explorar-catalogos) (`/explor
 1. Se localizan todas las fuentes de harvesting conectadas para ese mismo dominio (p. ej. todas las de `abertos.xunta.gal`, aunque haya varias fuentes/datasets distintos del mismo origen).
 2. De todos sus datasets, se cargan al DataStore (`datapusher_submit`) los recursos con un formato que `datapusher` sabe procesar (csv, xls, xlsx, tsv, ods) que todavía no estén cargados.
 3. Se sincroniza en caliente la conexión de Metabase al DataStore, para que las tablas nuevas aparezcan sin esperar al ciclo periódico de Metabase.
-4. Se muestra un resumen ("N enviados; M ya estaban cargados; K con formato no soportado, omitidos").
+4. Se renombran en Metabase todas las tablas del DataStore que todavía tengan el nombre por defecto (el UUID del recurso, poco legible — p. ej. "86524986 Bc95 47f2 A6b0..."), poniéndoles el título real del dataset de CKAN más su formato (p. ej. "Sustainable fisheries (CSV)"). Esto pasa cada vez que se pulsa el botón sobre una fuente con al menos un recurso cargado, no solo cuando hay recursos nuevos — así que también sirve para poner al día tablas que ya estaban cargadas pero sin nombre legible.
+5. Se muestra un resumen ("N enviados; M ya estaban cargados; K con formato no soportado, omitidos").
 
 **Límites a tener en cuenta**:
 - Solo actúa sobre datasets **ya conectados** al catálogo — no crea datasets nuevos ni conecta fuentes nuevas.

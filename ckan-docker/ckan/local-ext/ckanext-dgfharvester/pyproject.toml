@@ -1,0 +1,19 @@
+[project]
+name = "ckanext-dgfharvester"
+version = "0.1.0"
+description = "Harvester a medida para la API JSON de data.gouv.fr (plataforma udata, Francia), para DATAlife"
+requires-python = ">=3.9"
+dependencies = [
+  "ckantoolkit",
+  "requests",
+]
+
+[project.entry-points."ckan.plugins"]
+dgf_harvester = "ckanext.dgfharvester.plugin:DGFHarvester"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ckanext*"]

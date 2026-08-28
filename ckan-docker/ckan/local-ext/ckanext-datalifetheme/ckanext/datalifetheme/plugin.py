@@ -20,6 +20,7 @@ from __future__ import absolute_import
 import json
 import logging
 import os
+import re
 from urllib.parse import urlparse
 
 import requests
@@ -42,6 +43,14 @@ _DIRECTORY_PATH = os.path.join(
 _METABASE_INTERNAL_URL = os.environ.get("METABASE_INTERNAL_URL", "http://metabase:3000")
 _METABASE_API_KEY = os.environ.get("METABASE_API_KEY")
 _METABASE_DATASTORE_DB_NAME = "Catálogo DATAlife (DataStore CKAN)"
+
+# Las tablas del DataStore se llaman como el UUID del recurso de CKAN; Metabase
+# les pone por defecto un "nombre visible" que es ese mismo UUID humanizado
+# (guiones por espacios), nada legible. Se detectan por este patrón para
+# renombrarlas con el título real del dataset tras cada sincronización.
+_UUID_RE = re.compile(
+    r"^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+)
 
 # Taxonomía completa de sectores/cadenas de valor. Es la fuente única para
 # el desplegable de sector (portada y /explorar-catalogos) y para las
@@ -152,6 +161,64 @@ def _resource_is_datapusher_eligible(resource):
     return fmt in supported
 
 
+def _short_format(fmt):
+    fmt = (fmt or "").strip()
+    if "/" in fmt:
+        fmt = fmt.rstrip("/").rsplit("/", 1)[-1]
+    return fmt.upper()
+
+
+def _resource_label(resource_id):
+    """Título legible 'Dataset (FORMATO)' para una tabla del DataStore, a
+    partir del recurso de CKAN que le dio origen. None si no se encuentra."""
+    try:
+        res = toolkit.get_action("resource_show")(
+            {"ignore_auth": True}, {"id": resource_id}
+        )
+        pkg = toolkit.get_action("package_show")(
+            {"ignore_auth": True}, {"id": res["package_id"]}
+        )
+    except Exception:
+        return None
+    label = pkg.get("title") or pkg.get("name") or resource_id
+    fmt = _short_format(res.get("format"))
+    return "{} ({})".format(label, fmt) if fmt else label
+
+
+def _rename_metabase_tables(headers, db_id):
+    """Pone como 'nombre visible' de cada tabla del DataStore el título del
+    dataset de CKAN, en vez del UUID del recurso que usa Metabase por
+    defecto. Best-effort: no interrumpe el flujo si algo falla."""
+    try:
+        resp = requests.get(
+            "{}/api/database/{}/metadata".format(_METABASE_INTERNAL_URL, db_id),
+            headers=headers,
+            timeout=10,
+        )
+        resp.raise_for_status()
+        tables = resp.json().get("tables", [])
+    except requests.RequestException as exc:
+        log.warning("No se pudieron listar las tablas de Metabase para renombrarlas: %s", exc)
+        return
+
+    for table in tables:
+        table_name = table.get("name", "")
+        if not _UUID_RE.match(table_name):
+            continue
+        label = _resource_label(table_name)
+        if not label:
+            continue
+        try:
+            requests.put(
+                "{}/api/table/{}".format(_METABASE_INTERNAL_URL, table["id"]),
+                headers=headers,
+                json={"display_name": label},
+                timeout=10,
+            )
+        except requests.RequestException as exc:
+            log.warning("No se pudo renombrar la tabla %s en Metabase: %s", table_name, exc)
+
+
 def _metabase_sync_datastore():
     """Sincroniza en caliente la base del DataStore dentro de Metabase.
 
@@ -186,6 +253,7 @@ def _metabase_sync_datastore():
             timeout=15,
         )
         sync_resp.raise_for_status()
+        _rename_metabase_tables(headers, db_id)
         return True, None
     except requests.RequestException as exc:
         log.warning("No se pudo sincronizar Metabase: %s", exc)
@@ -236,8 +304,11 @@ def _send_entry_to_metabase(entry):
                     log.warning("No se pudo enviar el recurso %s a datapusher: %s", res_id, exc)
                     counts["errores"] += 1
 
+    # Se sincroniza (y se renombran tablas) en cuanto haya algún recurso ya
+    # cargado o recién enviado — así el botón también sirve para poner al día
+    # los nombres de tablas ya existentes, no solo para cargar datos nuevos.
     warning = None
-    if counts["enviados"]:
+    if counts["enviados"] or counts["ya_cargados"]:
         _, warning = _metabase_sync_datastore()
     return counts, warning
 
