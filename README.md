@@ -14,6 +14,7 @@ El plan completo (contexto, decisiones, fases) está en `C:\Users\Raffaele-DIHDa
 - **Explorador de catálogos** (`/explorar-catalogos`, solo administradores): directorio curado de catálogos de datos abiertos por país/región y sector — incluye ya 12 catálogos investigados y verificados, de España y de fuera — con una máscara de filtrado para decidir qué conectar antes de darlo de alta en el formulario de fuentes.
 - Personalización de marca e interfaz: formulario para añadir fuentes de datos manualmente (`/harvest/new`, ya incluido en CKAN) restringido a personas administradoras del sistema, con enlaces directos "Explorar catálogos" y "Fuentes de datos" en su menú de cuenta (extensión `ckan-docker/ckan/local-ext/ckanext-datalifetheme`; detalle en docs/personalizacion.md).
 - **Cuadro de mando** (`http://localhost:3000`, enlazado desde la cabecera del portal): [Metabase](https://www.metabase.com/) conectado en modo lectura al DataStore de CKAN, para construir gráficos, mapas y tablas dinámicas sobre los datasets ya cargados en el catálogo, sin salir de la plataforma. Detalle de qué datasets son visualizables hoy y cómo añadir nuevas visualizaciones en [docs/cuadro-de-mando.md](docs/cuadro-de-mando.md).
+- **Tutorial para el equipo**: guía paso a paso, sin conocimientos técnicos previos, para buscar datasets en el catálogo y crear gráficos, indicadores, tablas dinámicas, mapas y paneles en Metabase — [docs/tutorial-equipo.md](docs/tutorial-equipo.md).
 
 ## Cómo levantar el entorno local
 
