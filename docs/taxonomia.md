@@ -1,6 +1,6 @@
 # Taxonomía del catálogo
 
-El catálogo empezó con 4 organizaciones de primer nivel, una por cada cadena de valor de DIH DATALIFE (Hub de Innovación Digital Europeo, EDIH por sus siglas en inglés), y se ha ampliado con 10 sectores más para cubrir cualquier ámbito, no solo los de DATAlife. En total hay 14 organizaciones en CKAN (más `sandbox-pruebas`, de uso técnico).
+El catálogo empezó con 4 organizaciones de primer nivel, una por cada cadena de valor de DIH DATALIFE (Hub de Innovación Digital Europeo, EDIH por sus siglas en inglés), y se ha ampliado con 10 sectores más para cubrir cualquier ámbito, no solo los de DATAlife. En total hay 14 organizaciones en CKAN (la organización técnica `sandbox-pruebas`, usada solo para pruebas iniciales, ya se retiró por completo).
 
 ## Cadenas de valor originales de DATAlife
 
@@ -38,4 +38,4 @@ Cada dataset se asigna a la organización de la cadena de valor a la que pertene
 
 - Definir subtemas/grupos dentro de cada cadena de valor conforme se incorporen datasets reales.
 - Definir vocabulario de etiquetas (tags) común, evitando duplicados por sinónimos.
-- Los 10 sectores nuevos son organizaciones reales pero, a fecha de esta actualización, todavía sin ningún dataset conectado — están listos para recibir el primero.
+- De los 10 sectores nuevos, tres ya tienen datasets reales conectados: `medio-ambiente-clima` (MeteoGalicia, Rede Natura 2000, espacios protegidos, reservas de la biosfera, ríos, encoros), `transporte-movilidad` (aeródromos/helipuertos, ferrocarril, red viaria) y `cultura-turismo` (Camiño de Santiago) — todos procedentes del centro de descargas de la Xunta, ver docs/fuentes.md. Los siete restantes (Energía, Ciencia/Tecnología e I+D, Economía y Finanzas Públicas, Educación, Vivienda y Urbanismo, Gobierno y Sector Público, Demografía y Sociedad) siguen sin ningún dataset conectado.

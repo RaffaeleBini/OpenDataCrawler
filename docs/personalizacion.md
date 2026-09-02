@@ -4,7 +4,7 @@ Extensión: `ckan-docker/ckan/local-ext/ckanext-datalifetheme` (plugin `datalife
 
 ## 1. Añadir fuentes de datos manualmente (formulario)
 
-CKAN, a través de `ckanext-harvest`, ya trae de serie un formulario web para dar de alta una fuente de recolección: **`/harvest/new`**. No hemos tenido que construir nada nuevo para el formulario en sí: el equipo técnico entra ahí, pega la URL de la API o del catálogo, elige el tipo de fuente (`ckan`, `dcat_rdf`, `dcat_json`, `ige` o `ine`), la cadena de valor (organización) y la frecuencia, y al guardar queda creada una fuente de harvesting real, exactamente igual que las que hemos ido creando por API en las sesiones anteriores.
+CKAN, a través de `ckanext-harvest`, ya trae de serie un formulario web para dar de alta una fuente de recolección: **`/harvest/new`**. No hemos tenido que construir nada nuevo para el formulario en sí: el equipo técnico entra ahí, pega la URL de la API o del catálogo, elige el tipo de fuente (`ckan`, `dcat_rdf`, `dcat_json`, `ige`, `ine`, `gho`, `dgf` o `mg`), la cadena de valor (organización) y la frecuencia, y al guardar queda creada una fuente de harvesting real, exactamente igual que las que hemos ido creando por API en las sesiones anteriores. Cuando la fuente no expone ni API ni catálogo (solo descargas sueltas, como el centro de descargas de la Xunta), el dataset se da de alta directamente con el formulario normal de "Añadir dataset" en vez de este de fuentes de harvesting, ya que no hay nada que recolectar de forma periódica.
 
 Lo que sí hemos añadido:
 
@@ -36,7 +36,7 @@ Además de Agro-Mar-Alimentación, Forestal-Madera, Salud-Cuidados y Biotecnolog
 
 Página nueva, **`/explorar-catalogos`** (solo administradores), pensada para cuando el proyecto amplió su alcance de "Galicia y 4 sectores" a cualquier país y sector. Es un directorio curado de catálogos de datos abiertos, cada uno verificado a mano con una petición real (no un buscador automático), con una máscara de filtrado por país/región y por sector.
 
-- Cada entrada indica: nombre, país/región, sector(es), tecnología (`ckan`, `dcat_rdf`, `dcat_json`, `ige`, `ine` o `custom` si haría falta un conector nuevo), la URL de referencia, notas, y si ya está conectado al catálogo o no.
+- Cada entrada indica: nombre, país/región, sector(es), tecnología (`ckan`, `dcat_rdf`, `dcat_json`, `ige`, `ine`, `gho`, `dgf`, `mg`, `manual` para datasets enlazados a mano sin fuente de harvesting, o `custom` si haría falta un conector nuevo), la URL de referencia, notas, y si ya está conectado al catálogo o no.
 - El directorio vive en un fichero de datos dentro de la extensión (`ckanext/datalifetheme/data/catalog_directory.json`): para añadir una fuente nueva al explorador basta con añadir una entrada ahí, sin tocar la plantilla ni el código Python.
 - La página no conecta nada por sí misma: para cada catálogo listado, indica qué URL y qué tipo de fuente usar en el formulario de "Fuentes de datos" (punto 1).
 - El formulario de filtrado (país/región + sector) se muestra también en la **portada**, en el hueco donde antes estaba el cuadro "Search data" de CKAN; al enviarlo, lleva a `/explorar-catalogos` con esos filtros ya aplicados.

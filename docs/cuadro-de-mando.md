@@ -15,9 +15,9 @@ Se usa [Metabase](https://www.metabase.com/), una herramienta de BI (Business In
 
 ## Qué datasets son visualizables hoy (y cuáles no)
 
-Solo son visualizables desde Metabase los recursos que ya están cargados en el DataStore, es decir, ficheros CSV/XLS que `datapusher` haya procesado con éxito. **Importante**: en este despliegue, `datapusher` no se dispara automáticamente al recolectar (harvest) un recurso nuevo — hay que llamar manualmente a la acción `datapusher_submit` de la API de CKAN para cada recurso que se quiera cargar.
+Solo son visualizables desde Metabase los recursos que ya están cargados en el DataStore, es decir, ficheros CSV/XLS que `datapusher` haya procesado con éxito. **Matiz importante, aprendido con más fuentes conectadas**: `datapusher` sí se dispara automáticamente, pero solo para recursos creados o actualizados con una llamada aislada a la acción `resource_create`/`resource_update` (el caso de los CSV que suben nuestros propios conectores a medida, como el de la OMS o el de MeteoGalicia — quedan cargados en el DataStore sin ningún paso manual). Los recursos que trae un harvester DCAT normal (`dcat_rdf`/`dcat_json`) se crean dentro del `package_update` masivo que gestiona `ckanext-harvest` al recolectar, que no dispara ese aviso automático — para esos hay que llamar manualmente a `datapusher_submit` (o usar el botón "Enviar a Metabase", que lo hace por ti — ver más abajo).
 
-De los 15 datasets conectados al catálogo, se probaron 4 recursos como piloto:
+De los primeros 15 datasets conectados al catálogo (en una fase temprana del proyecto; hoy son muchos más, ver README), se probaron 4 recursos como piloto inicial:
 
 | Dataset | Resultado | Nota |
 |---|---|---|

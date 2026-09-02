@@ -114,9 +114,14 @@ Puntos clave de esta receta:
 
 Si tienes dudas para adaptar esta consulta a otro dataset, pide ayuda a la persona administradora del sistema.
 
-### Mapas de región y su límite actual
+### Mapas de región
 
-Metabase trae de serie mapas de región por país y de Estados Unidos, pero no de las provincias o comarcas de Galicia. Hoy puedes crear mapas de región a nivel de país sin ningún paso adicional; un mapa por concello o comarca gallega es una mejora pendiente (requiere cargar un fichero propio de límites geográficos) y no está disponible todavía.
+Además de los mapas de país y de Estados Unidos que trae Metabase de serie, ya hay dos mapas de región propios de Galicia disponibles para usar directamente, sin ningún paso adicional:
+
+- **Comarcas de Galicia**: para usarlo, la columna con el nombre de la comarca en tu pregunta tiene que coincidir exactamente con el nombre oficial (p. ej. "A Barcala", "Terra Chá").
+- **Concellos de Galicia**: la columna con el nombre del concello tiene que estar en mayúsculas y con el artículo al principio (p. ej. "O GROVE", no "Grove, O").
+
+Al construir una pregunta con visualización de mapa de región, estos dos aparecen junto a los mapas de país y de EE. UU. en el desplegable de "Región". Si tu tabla no trae el nombre exactamente en ese formato, puedes ajustarlo con una función de texto en la propia consulta (por ejemplo, poniéndolo en mayúsculas), sin modificar el dato original.
 
 ### Guardar preguntas y montar un panel (dashboard)
 
