@@ -127,7 +127,7 @@
     "sectores": ["agro-mar-alimentacion", "medio-ambiente-clima", "general"],
     "tecnologia": "mg",
     "url_catalogo": "https://servizos.meteogalicia.gal/mgrss/observacion/datosDiariosEstacionsMeteo.action",
-    "notas": "Varios servizos JSON públicos e sen autenticación (estado actual, datos diarios/horarios/mensuais das estacións), sen catálogo CKAN nin DCAT. Conector a medida construido (ckanext-mgharvester, source_type mg), que pide unha fiestra móbil dos últimos 7 días. Ya conectado: datos diarios das 170 estacións da rede (temperatura, choiva, vento, humidade...), en medio-ambiente-clima, con recurso JSON (fonte orixinal) e CSV xerado polo propio conector (23.537 filas, cargado ao DataStore automaticamente).",
+    "notas": "Varios servizos JSON públicos e sen autenticación (estado actual, datos diarios/horarios/mensuais das estacións), sen catálogo CKAN nin DCAT. Conector a medida construido (ckanext-mgharvester, source_type mg), que pide unha fiestra dos últimos 30 días en cada execución e a fusiona co histórico xa acumulado (non ten límite fixo). Frecuencia automática (DAILY): o harvest-scheduler xa existente crea un job novo cada día sen intervención manual. Ya conectado: datos diarios das 170 estacións da rede (temperatura, choiva, vento, humidade...), en medio-ambiente-clima, con recurso JSON (fonte orixinal) e CSV acumulado xerado polo propio conector (máis de 100.000 filas e crecendo, cargado ao DataStore automaticamente).",
     "estado": "verificado",
     "ya_conectado": true
   },
@@ -139,6 +139,17 @@
     "tecnologia": "dcat_rdf",
     "url_catalogo": "https://ckan.govdata.de/dataset/{nombre-del-dataset}.rdf",
     "notas": "CKAN nativo confirmado (versión 2.10.10), con ckanext-dcat activado en su lado (expone RDF por dataset individual, igual que abertos.xunta.gal/data.gov.uk/FAO). Ya conectado: \"Krankenhaus\" (hospitales y clínicas de Dortmund, agregado desde el portal regional Open.NRW), en salud-cuidados.",
+    "estado": "verificado",
+    "ya_conectado": true
+  },
+  {
+    "nombre": "Centro de descargas da Xunta de Galicia (información xeográfica)",
+    "pais": "España",
+    "region": "Galicia",
+    "sectores": ["agro-mar-alimentacion", "forestal-madera", "medio-ambiente-clima", "transporte-movilidad", "cultura-turismo", "general"],
+    "tecnologia": "manual",
+    "url_catalogo": "https://mapas.xunta.gal/es/mapas/informacion-geografica/centro-de-descargas",
+    "notas": "Descargas ZIP sueltas (shapefile), sen catálogo CKAN nin DCAT nin API — non hai harvester posible, cada capa hai que conectala a man como dataset independente. 17 capas investigadas e verificadas en vivo (entidades de población, redes de transporte, espazos naturais, usos do solo, litoloxía, hidrografía, paisaxe, límites administrativos). A licenza NON é uniforme: a maioría esixe uso non comercial + cita (o organismo atribuído varía: IGN, Instituto de Estudos do Territorio, Dirección Xeral de Conservación da Natureza...), pero polo menos dúas capas (Encoros, Camiño de Santiago) non traen ningún documento de condicións no propio ZIP. Ya conectada: \"Usos do solo de Galicia\" (clasificación CORINE + especies forestais, en forestal-madera). Pendentes de conectar, xa identificadas: Red Natura 2000, espazos protexidos, reservas da biosfera, ríos, encoros, Camiño de Santiago, e as capas de transporte (aeródromos, estradas, ferrocarril).",
     "estado": "verificado",
     "ya_conectado": true
   },
