@@ -31,7 +31,12 @@ En la portada del catálogo tienes un buscador de texto libre: escribe una palab
 
 ### Filtrar por país y sector
 
-Justo en la portada, junto al buscador, hay un filtro por país/región y por sector. Úsalo cuando quieras explorar qué hay disponible de un país concreto (por ejemplo, Francia o Alemania) o de un sector concreto (por ejemplo, Medio Ambiente y Clima), en vez de buscar por una palabra exacta. Al enviarlo, la página te lleva a los resultados filtrados.
+Justo en la portada, junto al buscador, hay un filtro por país/región y por sector. Úsalo cuando quieras explorar qué hay disponible de un país concreto (por ejemplo, Francia o Alemania) o de un sector concreto (por ejemplo, Medio Ambiente y Clima), en vez de buscar por una palabra exacta. Al enviarlo, la página te lleva a un directorio de catálogos de datos abiertos que encajan con tu selección — no son datasets sueltos, son fuentes completas, cada una con una etiqueta:
+
+- **Ya conectado**: sus datos ya están dentro de este portal; búscalos con el buscador o entra directamente por su organización.
+- **Pendiente de conectar**: es una fuente real y ya investigada, pero todavía no se ha traído al portal. Si te interesa, coméntaselo a la persona administradora del sistema.
+
+Este directorio se amplía con el tiempo: no pretende cubrir todos los países y organismos desde el primer día.
 
 También puedes navegar directamente por organización: cada cadena de valor y cada sector de DATAlife es una organización dentro del catálogo, con su propia página de listado.
 
@@ -53,6 +58,31 @@ En el menú superior encontrarás un enlace "Explorar catálogos". Esta página 
 ### Aviso sobre calidad de los datos de origen
 
 Algunos recursos, tal y como los publica el organismo original, no son ficheros descargables directos: pueden redirigir a una página interactiva, o su enlace puede estar roto. Esto es un problema de la fuente original, no del catálogo. Si un recurso no se descarga como esperas, prueba con otro recurso del mismo dataset o consulta con la persona administradora del sistema.
+
+### Uso avanzado: consultar el catálogo por API
+
+Toda búsqueda y toda descarga que haces a mano en el portal también se puede pedir por programa, con la misma interfaz de programación de aplicaciones (API) que usa el propio catálogo — útil si quieres integrar el catálogo en tu propia herramienta o automatizar una consulta repetida. Sustituye `{URL_DEL_CATALOGO}` por la dirección real que te haya facilitado tu equipo.
+
+Buscar datasets por palabra clave y organización:
+
+```
+{URL_DEL_CATALOGO}/api/3/action/package_search?q=incendios&fq=organization:forestal-madera
+```
+
+Consultar un dataset concreto y obtener las URL directas de sus recursos:
+
+```
+{URL_DEL_CATALOGO}/api/3/action/package_show?id=nombre-del-dataset
+```
+
+| Necesitas | Llamada |
+|---|---|
+| Buscar datasets | `/api/3/action/package_search?q=…` |
+| Ver un dataset y sus recursos | `/api/3/action/package_show?id=…` |
+| Listar las organizaciones (cadenas de valor y sectores) | `/api/3/action/organization_list` |
+| Ver los datasets de una organización | `/api/3/action/organization_show?id=…&include_datasets=true` |
+
+Para consultas puntuales no hace falta ninguna clave: el acceso de lectura es abierto. Para un volumen alto de peticiones, crea una clave desde tu perfil ("Mi cuenta" → "Claves de API") y envíala en la cabecera `Authorization`.
 
 ---
 
@@ -143,3 +173,15 @@ Puedes volver a abrir un panel guardado en cualquier momento; las preguntas que 
 ## ¿Y si necesito una fuente de datos nueva?
 
 Si echas en falta un dataset o una fuente de datos que no está en el catálogo, coméntaselo a la persona administradora del sistema: dar de alta una fuente nueva es una tarea de administración, no algo que puedas hacer desde tu cuenta. Puedes consultar antes "Explorar catálogos" para ver si esa fuente ya está identificada y pendiente de conectar.
+
+## Preguntas frecuentes
+
+**¿Necesito permiso para usar estos datos?** Cada dataset muestra su licencia. La mayoría son de reutilización abierta, pero conviene comprobarlo antes de un uso comercial, sobre todo en datasets que el catálogo solo indexa desde otra fuente sin alojarla.
+
+**¿Por qué un enlace de descarga me lleva a otra web?** Porque ese dataset no lo aloja este catálogo: indexa su ficha y enlaza al portal original para no duplicar el archivo.
+
+**¿Puedo pedir que se incorpore un dataset que no está?** Sí — coméntaselo a la persona administradora del sistema, con el enlace o la fuente, para que se evalúe.
+
+**¿Hay límite de peticiones a la API?** Para uso puntual, no. Si vas a hacer muchas peticiones seguidas, usa una clave de API (ver más arriba) para evitar bloqueos por exceso de tráfico.
+
+**¿Por qué no veo el enlace "Fuentes de datos" en mi cuenta?** Ese enlace, y el formulario al que lleva, solo están disponibles para administradores del sistema.
